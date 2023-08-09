@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="lead_incentive_form_view" model="ir.ui.view">
+        <field name="name">Executive Incentive</field>
+        <field name="model">seminar.lead.incentive</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="incentive_per_lead"/>
+
+            </tree>
+
+        </field>
+    </record>
+    <record id="logic_seminar_incentive_tree" model="ir.ui.view">
+        <field name="name">Executive Incentive</field>
+        <field name="model">seminar.lead.incentive</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Form">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="incentive_per_lead"/>
+
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="incentive_seminar_action">
+        <field name="name">Executive Incentive</field>
+        <field name="res_model">seminar.lead.incentive</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem name="Configuration" id="menu_seminar_config"
+              parent="menu_seminar_colleges_view"
+              groups="seminar.seminar_accounts"
+              sequence="5"/>
+
+    <menuitem name="Executive Incentive" id="menu_tickets_view"
+              action="incentive_seminar_action"
+              parent="menu_seminar_config"
+              groups="seminar.seminar_accounts"
+              sequence="1"/>
+
+</odoo>

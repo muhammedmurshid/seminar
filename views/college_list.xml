@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="logic_seminar_college_lists" model="ir.ui.view">
+        <field name="name">College Lists</field>
+        <field name="model">college.list</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="College">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="college_name"/>
+                            <field name="district"/>
+                            <field name="place"/>
+                            <field name="contact_number"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="logic_college_lists_tree" model="ir.ui.view">
+        <field name="name">Colleges</field>
+        <field name="model">college.list</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="college_name"/>
+                <field name="contact_number"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="logic_seminar_colleges_action">
+        <field name="name">Colleges</field>
+        <field name="res_model">college.list</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Seminar" id="menu_seminar_colleges_view"
+              action="logic_seminar_colleges_action"
+              web_icon="seminar/static/description/icon.png"
+              sequence="1"/>
+    <menuitem name="College Lists" id="menu_lists_colleges_view"
+              action="logic_seminar_colleges_action"
+              parent="menu_seminar_colleges_view"
+              sequence="1"/>
+</odoo>

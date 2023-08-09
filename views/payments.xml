@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="seminar_expenses_inherit" model="ir.ui.view">
+        <field name="name">seminar.view.form.inherit</field>
+        <field name="model">payment.request</field>
+        <field name="inherit_id" ref="logic_payments.payment_request_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='source_type']" position="after">
+                <field name="seminar_source" attrs="{'invisible': [('source_type', '!=', 'seminar')]}"
+                    string="Seminar Source"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="logic_seminar_exec_rules" model="ir.rule">
+            <field name="name">Only see own documents</field>
+            <field name="model_id" ref="model_seminar_leads"/>
+            <field name="domain_force">[('create_uid','=',user.id)]</field>
+            <field name="groups" eval="[(4, ref('seminar_executive'))]"/>
+        </record>
+        <record id="logic_seminar_exec_expenses_rules" model="ir.rule">
+            <field name="name">Only see own documents</field>
+            <field name="model_id" ref="model_seminar_expenses"/>
+            <field name="domain_force">[('create_uid','=',user.id)]</field>
+            <field name="groups" eval="[(4, ref('seminar_executive'))]"/>
+        </record>
+<!--        <record id="logic_sem_rules" model="ir.rule">-->
+<!--            <field name="name">Only see own documents</field>-->
+<!--            <field name="model_id" ref="model_ir_exports"/>-->
+<!--            <field name="groups" eval="[(4, ref('seminar_executive'))]"/>-->
+<!--        </record>-->
+    </data>
+</odoo>
