@@ -8,6 +8,7 @@
             <xpath expr="//field[@name='source_type']" position="after">
                 <field name="seminar_source" attrs="{'invisible': [('source_type', '!=', 'seminar')]}"
                     string="Seminar Source"/>
+                <field name="seminar_executive" attrs="{'invisible': [('source_type', '!=', 'seminar')]}"/>
             </xpath>
         </field>
     </record>

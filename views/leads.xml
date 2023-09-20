@@ -19,9 +19,13 @@
 
                             <field name="college_id"/>
                             <field name="district"/>
-                            <field name="school"/>
-                            <field name="course" attrs="{'invisible':[('school', '!=', 'hsc')]}"/>
+                            <!--                            <field name="school"/>-->
+                            <field name="course"/>
                             <field name="lead_source_id"/>
+                        </group>
+                        <group>
+                            <field name="booked_by"/>
+                            <field name="attended_by"/>
                         </group>
                     </group>
                     <notebook>
@@ -30,13 +34,24 @@
                                 <tree string="Students List" editable="bottom">
                                     <field name="student_name"/>
                                     <field name="contact_number" widget="phone"/>
+                                    <field name="whatsapp_number" widget="phone"/>
+                                    <field name="parent_number" widget="phone"/>
                                     <field name="email_address" widget="mail"/>
                                     <field name="place"/>
                                     <field name="admission_status"/>
-                                    <field name="incentive"/>
+                                    <field name="make_visible_seminar_executive" invisible="1"/>
+                                    <field name="incentive" groups="seminar.seminar_accounts"/>
+
 
                                 </tree>
                             </field>
+                            <div>
+                                <h5 align="right">
+                                <label for="child_count"/>:
+                                    <field name="child_count"/>
+                                </h5>
+                            </div>
+
                         </page>
                     </notebook>
                     <group>
@@ -68,7 +83,6 @@
                 <field name="district"/>
                 <field name="state"/>
             </tree>
-
         </field>
     </record>
 
@@ -82,5 +96,5 @@
     <menuitem name="Leads" id="menu_lists_sem_leads_view"
               action="logic_seminar_leads_action"
               parent="menu_seminar_colleges_view"
-              sequence="2"/>
+              sequence="1"/>
 </odoo>

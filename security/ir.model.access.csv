@@ -13,6 +13,9 @@ access_adm,access_details,model_expenses_tree_seminar,seminar_admin,1,1,1,1
 access_adm_inc,access_details,model_seminar_lead_incentive,seminar_accounts,1,1,1,1
 access_college_acc,access_details,model_college_list,seminar_accounts,1,0,0,0
 access_college_export,access_details,model_college_list,seminar_executive,0,0,0,0
+access_seminar_traveling,access_details,model_seminar_traveling_rate,seminar_executive,0,1,1,1
+access_seminar_acc_traveling,access_details,model_seminar_traveling_rate,seminar_accounts,1,1,1,1
+access_seminar_admin_traveling,access_details,model_seminar_traveling_rate,seminar_admin,1,1,1,1
 
 
 

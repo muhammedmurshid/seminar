@@ -18,8 +18,12 @@
                         <group>
                             <field name="purpose"/>
                             <field name="currency_id" invisible="1"/>
-                            <field name="payment_expected_date"/>
+                            <!--                            <field name="payment_expected_date"/>-->
                             <field name="payment_date"/>
+                        </group>
+                        <group>
+                            <field name="seminar_user"/>
+                            <field name="date"/>
                         </group>
                     </group>
                     <notebook>
@@ -27,7 +31,12 @@
                             <field name="exp_ids">
                                 <tree string="Students List" editable="bottom">
                                     <field name="particulars"/>
-                                    <field name="amount" widget="monetary"/>
+                                    <field name="type"/>
+                                    <field name="institute"/>
+                                    <field name="institute_number"/>
+                                    <field name="km_traveled"/>
+
+                                    <!--                                    <field name="amount" widget="monetary"/>-->
                                 </tree>
                             </field>
                         </page>
@@ -44,16 +53,16 @@
                             </group>
                         </page>
                     </notebook>
-                    <group col="6" name="sale_total">
-                        <group class="oe_subtotal_footer oe_right">
-                            <div>
-                                <label for="total_amount"/>
-                            </div>
-
-                            <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator"
-                                   widget='monetary'
-                                   options="{'currency_field': 'currency_id'}"/>
-                        </group>
+                    <group class="oe_subtotal_footer oe_right" groups="seminar.seminar_accounts">
+                        <field name="km_amount"
+                               widget='monetary'
+                               options="{'currency_field': 'currency_id'}"/>
+                        <div class="oe_subtotal_footer_separator oe_inline">
+                            <label for="total_traveled_amount"/>
+                        </div>
+                        <field name="total_traveled_amount" nolabel="1" class="oe_subtotal_footer_separator"
+                               widget='monetary'
+                               options="{'currency_field': 'currency_id'}"/>
                     </group>
                 </sheet>
 

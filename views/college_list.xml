@@ -7,11 +7,28 @@
         <field name="arch" type="xml">
             <form string="College">
                 <sheet>
+                    <div class="oe_title pr-0">
+                        <h1 class="d-flex flex-row justify-content-between">
+                            <field name="college_name" class="o_task_name text-truncate" placeholder="College Name..."
+                                   default_focus="1"/>
+
+                        </h1>
+                    </div>
                     <group>
                         <group>
-                            <field name="college_name"/>
+                            <field name="type"/>
+                            <field name="first_year" attrs="{'invisible': [('type', '!=', 'college')]}"/>
+                            <field name="second_year" attrs="{'invisible': [('type', '!=', 'college')]}"/>
+                            <field name="third_year" attrs="{'invisible': [('type', '!=', 'college')]}"/>
+                            <field name="school_type" attrs="{'invisible': [('type', '!=', 'school')]}"/>
                             <field name="district"/>
                             <field name="place"/>
+                            <field name="institute_number" placeholder="Institute Number" widget="phone"/>
+
+                        </group>
+                        <group string="Contact Person Details">
+                            <field name="designation"/>
+                            <field name="contact_person_name"/>
                             <field name="contact_number"/>
                         </group>
                     </group>
@@ -30,7 +47,8 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="college_name"/>
-                <field name="contact_number"/>
+                <field name="institute_number" widget="phone"/>
+                <field name="type"/>
             </tree>
 
         </field>
@@ -43,11 +61,11 @@
     </record>
 
     <menuitem name="Seminar" id="menu_seminar_colleges_view"
-              action="logic_seminar_colleges_action"
+              action="logic_seminar_leads_action"
               web_icon="seminar/static/description/icon.png"
               sequence="1"/>
-    <menuitem name="College Lists" id="menu_lists_colleges_view"
+    <menuitem name="Institutes List" id="menu_lists_colleges_view"
               action="logic_seminar_colleges_action"
               parent="menu_seminar_colleges_view"
-              sequence="1"/>
+              sequence="2"/>
 </odoo>
