@@ -98,8 +98,6 @@ class ExpensesTreeSeminar(models.Model):
     exp_id = fields.Many2one('seminar.expenses', string='Expense', ondelete='cascade')
 
 
-
-
 class PaymentModel(models.Model):
     _inherit = 'payment.request'
 

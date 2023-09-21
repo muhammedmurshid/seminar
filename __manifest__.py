@@ -2,7 +2,7 @@
     'name': "Seminar",
     'version': "14.0.1.0",
     'sequence': "0",
-    'depends': ['base', 'mail', 'web', 'logic_payments'],
+    'depends': ['base', 'mail', 'web', 'logic_payments', 'leads'],
     'data': [
         'security/groups.xml',
         'security/export_visible_security.xml',
