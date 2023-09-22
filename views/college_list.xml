@@ -47,7 +47,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="college_name"/>
-                <field name="institute_number" widget="phone"/>
+                <field name="contact_number" widget="phone"/>
                 <field name="type"/>
             </tree>
 

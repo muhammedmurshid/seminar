@@ -102,8 +102,8 @@ class PaymentModel(models.Model):
     _inherit = 'payment.request'
 
     source_type = fields.Selection(
-        selection=[('other', 'Other'), ('advance', 'Advance'), ('sfc', 'Student Faculty Club'), ('seminar', 'Seminar')], string="Source Type",
-        required=True)
+        selection_add=[('seminar', 'Seminar')], ondelete={'seminar': 'cascade'}, string="Source Type",
+    )
     seminar_source = fields.Many2one('seminar.expenses', string="SFC Source")
     seminar_executive = fields.Many2one('res.users', string="Seminar Executive")
 

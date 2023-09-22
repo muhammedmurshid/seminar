@@ -17,6 +17,7 @@ access_seminar_traveling,access_details,model_seminar_traveling_rate,seminar_exe
 access_seminar_acc_traveling,access_details,model_seminar_traveling_rate,seminar_accounts,1,1,1,1
 access_seminar_admin_traveling,access_details,model_seminar_traveling_rate,seminar_admin,1,1,1,1
 access_seminar_leads_user,access_details,model_seminar_students,leads.leads_basic_user,1,1,1,1
+access_college_exp_accounts,access_details,model_seminar_expenses,seminar_accounts,1,1,1,1
 
 
 

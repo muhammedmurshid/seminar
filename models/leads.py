@@ -7,7 +7,7 @@ class SeminarLeads(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'college_id'
 
-    college_id = fields.Many2one('college.list', string='College Name', required=True)
+    college_id = fields.Many2one('college.list', string='College/School', required=True)
     district = fields.Selection([('wayanad', 'Wayanad'), ('ernakulam', 'Ernakulam'), ('kollam', 'Kollam'),
                                  ('thiruvananthapuram', 'Thiruvananthapuram'), ('kottayam', 'Kottayam'),
                                  ('kozhikode', 'Kozhikode'), ('palakkad', 'Palakkad'), ('kannur', 'Kannur'),
@@ -20,10 +20,11 @@ class SeminarLeads(models.Model):
     attended_by = fields.Many2one('hr.employee', string='Attended By')
     seminar_ids = fields.One2many('seminar.students', 'seminar_id', string='Seminar')
     lead_source_id = fields.Many2one('leads.sources', string='Lead Source', required=True)
+    stream = fields.Char(string='Stream')
     state = fields.Selection([
         ('draft', 'Draft'), ('done', 'Done')
     ], string='Status', default='draft')
-    course = fields.Char(string='Course', required=1)
+    # course = fields.Char(string='Course', required=1)
     school = fields.Selection([('hsc', 'HSC'), ('ssc', 'SSC')], string='School')
     reference_no = fields.Char(string='Leads Number', required=True,
                                readonly=True, default=lambda self: _('New'))
@@ -45,17 +46,24 @@ class SeminarLeads(models.Model):
 
     def action_submit(self):
         self.state = 'done'
+        preferred_course = ""
+
         for rec in self.seminar_ids:
-            self.env['leads.logic'].create({
+            preferred_course = ""
+            if rec.preferred_course:
+                preferred_course += rec.preferred_course.name
+            else:
+                preferred_course += 'None'
+            self.env['leads.logic'].sudo().create({
                 'leads_source': self.lead_source_id.id,
                 'phone_number': rec.contact_number,
                 'name': rec.student_name,
                 'lead_owner': self.create_uid.employee_id.id,
                 'place': rec.place,
-                'last_studied_course': self.course,
+                # 'last_studied_course': self.course,
                 'seminar_lead_id': rec.id,
                 'email_address': rec.email_address,
-                'course_id': self.course,
+                'course_id': preferred_course,
                 'lead_quality': 'Interested',
                 'district': self.district,
                 'phone_number_second': rec.whatsapp_number,
@@ -85,6 +93,7 @@ class CollegeListsLeads(models.Model):
                                         default='no')
     email_address = fields.Char(string='Email Address')
     parent_number = fields.Char(string='Parent Number')
+    preferred_course = fields.Many2one('logic.base.courses', string='Preferred Course')
 
     @api.depends('student_name')
     def _compute_seminar_executive(self):
