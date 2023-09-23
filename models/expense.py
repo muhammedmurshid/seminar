@@ -89,8 +89,9 @@ class ExpensesTreeSeminar(models.Model):
     _name = 'expenses.tree.seminar'
     _rec_name = 'particulars'
 
-    particulars = fields.Char(string='Particulars')
+    particulars = fields.Char(string='Particulars', required=True)
     amount = fields.Float(string='Amount')
+    date = fields.Date(string='Date')
     institute = fields.Many2one('college.list', string='Institute')
     km_traveled = fields.Float(string='Km Traveled')
     type = fields.Selection([('car', 'Car'), ('bike', 'Bike'), ('other', 'Other')], string='Type')

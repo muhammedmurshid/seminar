@@ -44,6 +44,16 @@ class SeminarLeads(models.Model):
         res = super(SeminarLeads, self).create(vals)
         return res
 
+    def action_done_leads_manager(self):
+        activity_id = self.env['mail.activity'].search(
+            [('res_id', '=', self.id), ('user_id', '=', self.env.user.id), (
+                'activity_type_id', '=', self.env.ref('leads.mail_seminar_leads_done').id)])
+        activity_id.action_feedback('done')
+        # activity_id.sudo().unlink()
+        self.activity_done = True
+
+    activity_done = fields.Boolean(string='Done')
+
     def action_submit(self):
         self.state = 'done'
         preferred_course = ""
@@ -60,6 +70,7 @@ class SeminarLeads(models.Model):
                 'name': rec.student_name,
                 'lead_owner': self.create_uid.employee_id.id,
                 'place': rec.place,
+                'college_name': self.college_id.college_name,
                 # 'last_studied_course': self.course,
                 'seminar_lead_id': rec.id,
                 'email_address': rec.email_address,
@@ -69,6 +80,14 @@ class SeminarLeads(models.Model):
                 'phone_number_second': rec.whatsapp_number,
                 'parent_number': rec.parent_number
             })
+        res_user = self.env['res.users'].search([])
+        leads = self.env['leads.logic'].search([])
+        for user in res_user:
+            if user.has_group('leads.leads_admin'):
+                print(user.name, 'user')
+                self.activity_schedule(
+                    'leads.mail_seminar_leads_done', user_id=user.id,
+                    note=f'Seminar data of {self.college_id.college_name} having {self.child_count} leads is submitted by {self.create_uid.name} '),
 
     @api.depends('seminar_ids.incentive')
     def _total_incentive_amount(self):
@@ -78,46 +97,45 @@ class SeminarLeads(models.Model):
         self.update({
             'incentive_amt': total
         })
+
     incentive_amt = fields.Float(string='Incentive', compute='_total_incentive_amount', store=True)
 
+    class CollegeListsLeads(models.Model):
+        _name = 'seminar.students'
 
-class CollegeListsLeads(models.Model):
-    _name = 'seminar.students'
+        student_name = fields.Char(string='Student Name', required=True)
+        contact_number = fields.Char(string='Contact Number', required=True)
+        whatsapp_number = fields.Char(string='Whatsapp Number')
+        seminar_id = fields.Many2one('seminar.leads', string='Seminar', ondelete='cascade')
+        place = fields.Char(string='Place')
+        admission_status = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Admission Status', readonly=True,
+                                            default='no')
+        email_address = fields.Char(string='Email Address')
+        parent_number = fields.Char(string='Parent Number')
+        preferred_course = fields.Many2one('logic.base.courses', string='Preferred Course')
 
-    student_name = fields.Char(string='Student Name', required=True)
-    contact_number = fields.Char(string='Contact Number', required=True)
-    whatsapp_number = fields.Char(string='Whatsapp Number')
-    seminar_id = fields.Many2one('seminar.leads', string='Seminar', ondelete='cascade')
-    place = fields.Char(string='Place')
-    admission_status = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Admission Status', readonly=True,
-                                        default='no')
-    email_address = fields.Char(string='Email Address')
-    parent_number = fields.Char(string='Parent Number')
-    preferred_course = fields.Many2one('logic.base.courses', string='Preferred Course')
+        @api.depends('student_name')
+        def _compute_seminar_executive(self):
+            res_user = self.env['res.users'].search([('id', '=', self.env.user.id)])
+            if res_user.has_group('seminar.seminar_executive'):
+                self.make_visible_seminar_executive = True
+            else:
+                self.make_visible_seminar_executive = False
 
-    @api.depends('student_name')
-    def _compute_seminar_executive(self):
-        res_user = self.env['res.users'].search([('id', '=', self.env.user.id)])
-        if res_user.has_group('seminar.seminar_executive'):
-            self.make_visible_seminar_executive = True
-        else:
-            self.make_visible_seminar_executive = False
+        make_visible_seminar_executive = fields.Boolean(string="Executive", compute='_compute_seminar_executive')
 
-    make_visible_seminar_executive = fields.Boolean(string="Executive", compute='_compute_seminar_executive')
+        @api.depends('incentive', 'student_name')
+        def _total_incentive(self):
+            ss = self.env['seminar.lead.incentive'].search([])
+            for rec in ss:
+                self.incentive = rec.incentive_per_lead
 
-    @api.depends('incentive', 'student_name')
-    def _total_incentive(self):
-        ss = self.env['seminar.lead.incentive'].search([])
-        for rec in ss:
-            self.incentive = rec.incentive_per_lead
+        incentive = fields.Float(string='Incentive', compute='_total_incentive', store=True)
 
-    incentive = fields.Float(string='Incentive', compute='_total_incentive', store=True)
+    class SeminarLeadIncentive(models.Model):
+        _name = 'seminar.lead.incentive'
+        _description = 'Incentive Amount'
+        _inherit = ['mail.thread', 'mail.activity.mixin']
+        _rec_name = 'incentive_per_lead'
 
-
-class SeminarLeadIncentive(models.Model):
-    _name = 'seminar.lead.incentive'
-    _description = 'Incentive Amount'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
-    _rec_name = 'incentive_per_lead'
-
-    incentive_per_lead = fields.Float(string='Incentive per lead')
+        incentive_per_lead = fields.Float(string='Incentive per lead')
