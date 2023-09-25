@@ -21,6 +21,7 @@ class SeminarLeads(models.Model):
     seminar_ids = fields.One2many('seminar.students', 'seminar_id', string='Seminar')
     lead_source_id = fields.Many2one('leads.sources', string='Lead Source', required=True)
     stream = fields.Char(string='Stream')
+
     state = fields.Selection([
         ('draft', 'Draft'), ('done', 'Done')
     ], string='Status', default='draft')
@@ -88,6 +89,12 @@ class SeminarLeads(models.Model):
                 self.activity_schedule(
                     'leads.mail_seminar_leads_done', user_id=user.id,
                     note=f'Seminar data of {self.college_id.college_name} having {self.child_count} leads is submitted by {self.create_uid.name} '),
+        self.env['mail.mail'].sudo().create({
+            'model': 'seminar.leads',
+            'subject': 'Seminar Leads',
+            'body_html': f'{self.create_uid.name} submitted leads of {self.college_id.college_name} containing {self.child_count} leads',
+            'email_to': self.create_uid.employee_id.parent_id.work_email,
+        }).send()
 
     @api.depends('seminar_ids.incentive')
     def _total_incentive_amount(self):

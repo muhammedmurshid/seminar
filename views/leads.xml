@@ -23,81 +23,82 @@
                             <field name="district"/>
                             <field name="activity_done" invisible="1"/>
                             <!--                            <field name="school"/>-->
-                    <!--                            <field name="course"/>-->
-                    <field name="lead_source_id"/>
-                </group>
-                <group>
-                    <field name="stream"/>
-                    <field name="booked_by"/>
-                    <field name="attended_by"/>
-                </group>
-            </group>
-            <notebook>
-                <page string="Students List" name="goals">
-                    <field name="seminar_ids">
-                        <tree string="Students List" editable="bottom">
-                            <field name="student_name"/>
-                            <field name="preferred_course"/>
-                            <field name="contact_number" widget="phone"/>
-                            <field name="whatsapp_number" widget="phone"/>
-                            <field name="parent_number" widget="phone"/>
-                            <field name="email_address" widget="mail"/>
-                            <field name="place"/>
-                            <field name="admission_status"/>
-                            <field name="make_visible_seminar_executive" invisible="1"/>
-                            <field name="incentive" groups="seminar.seminar_accounts"/>
-                        </tree>
-                    </field>
-                    <div>
-                        <h5 align="right">
-                            <label for="child_count"/>:
-                            <field name="child_count"/>
-                        </h5>
-                    </div>
+                            <!--                            <field name="course"/>-->
+                            <field name="lead_source_id"/>
+                        </group>
+                        <group>
+                            <field name="stream"/>
+                            <field name="booked_by"/>
+                            <field name="attended_by"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Students List" name="goals">
+                            <field name="seminar_ids">
+                                <tree string="Students List" editable="bottom">
+                                    <field name="student_name"/>
+                                    <field name="preferred_course"/>
+                                    <field name="contact_number" widget="phone"/>
+                                    <field name="whatsapp_number" widget="phone"/>
+                                    <field name="parent_number" widget="phone"/>
+                                    <field name="email_address" widget="mail"/>
+                                    <field name="place"/>
+                                    <field name="admission_status"/>
+                                    <field name="make_visible_seminar_executive" invisible="1"/>
+                                    <field name="incentive" groups="seminar.seminar_accounts"/>
+                                </tree>
+                            </field>
+                            <div>
+                                <h5 align="right">
+                                    <label for="child_count"/>:
+                                    <field name="child_count"/>
+                                </h5>
+                            </div>
 
-                </page>
-            </notebook>
-            <group>
-                <field name="incentive_amt" widget="monetary"/>
-            </group>
-        </sheet>
-        <div class="oe_chatter">
-            <field name="message_follower_ids"/>
-            <field name="activity_ids"/>
-            <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
-        </div>
-    </form>
-</field>
-        </record>
-<record id="seq_seminar_leads" model="ir.sequence">
-<field name="name">Leads Sequence</field>
-<field name="code">seminar.leads</field>
-<field name="prefix">SL</field>
-<field name="padding">2</field>
-<field name="company_id" eval="False"/>
-</record>
-<record id="logic_leads_seminar_lists_tree" model="ir.ui.view">
-<field name="name">Leads</field>
-<field name="model">seminar.leads</field>
-<field name="arch" type="xml">
-    <tree>
-        <field name="reference_no"/>
-        <field name="college_id"/>
-        <field name="district"/>
-        <field name="state"/>
-    </tree>
-</field>
-</record>
+                        </page>
+                    </notebook>
+                    <group>
+                        <field name="incentive_amt" widget="monetary"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="seq_seminar_leads" model="ir.sequence">
+        <field name="name">Leads Sequence</field>
+        <field name="code">seminar.leads</field>
+        <field name="prefix">SL</field>
+        <field name="padding">2</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="logic_leads_seminar_lists_tree" model="ir.ui.view">
+        <field name="name">Leads</field>
+        <field name="model">seminar.leads</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="reference_no"/>
+                <field name="create_uid" string="Owner"/>
+                <field name="college_id"/>
+                <field name="district"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
 
 
-<record model="ir.actions.act_window" id="logic_seminar_leads_action">
-<field name="name">Leads</field>
-<field name="res_model">seminar.leads</field>
-<field name="view_mode">tree,form</field>
-</record>
+    <record model="ir.actions.act_window" id="logic_seminar_leads_action">
+        <field name="name">Leads</field>
+        <field name="res_model">seminar.leads</field>
+        <field name="view_mode">tree,form</field>
+    </record>
 
-<menuitem name="Leads" id="menu_lists_sem_leads_view"
-          action="logic_seminar_leads_action"
-          parent="menu_seminar_colleges_view"
-          sequence="1"/>
-        </odoo>
+    <menuitem name="Leads" id="menu_lists_sem_leads_view"
+              action="logic_seminar_leads_action"
+              parent="menu_seminar_colleges_view"
+              sequence="1"/>
+</odoo>
