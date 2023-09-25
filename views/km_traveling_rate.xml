@@ -40,7 +40,7 @@
     <menuitem name="Traveling Rate"
               id="main_menu_traveling_rate"
               action="rate_of_seminar_rate_traveling"
-              parent="menu_seminar_colleges_view"
+              parent="menu_seminar_config"
               sequence="10"/>
 
 

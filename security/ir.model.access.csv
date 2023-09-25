@@ -11,7 +11,7 @@ access_college_sem_adm,access_details,model_seminar_leads,seminar_admin,1,1,1,1
 access_college_exp_adm,access_details,model_seminar_expenses,seminar_admin,1,1,1,1
 access_adm,access_details,model_expenses_tree_seminar,seminar_admin,1,1,1,1
 access_adm_inc,access_details,model_seminar_lead_incentive,seminar_accounts,1,1,1,1
-access_college_acc,access_details,model_college_list,seminar_accounts,1,0,0,0
+access_college_acc,access_details,model_college_list,seminar_accounts,0,1,0,0
 access_college_export,access_details,model_college_list,seminar_executive,0,0,0,0
 access_seminar_traveling,access_details,model_seminar_traveling_rate,seminar_executive,0,1,1,1
 access_seminar_acc_traveling,access_details,model_seminar_traveling_rate,seminar_accounts,1,1,1,1
@@ -22,10 +22,6 @@ access_leads,access_details,model_seminar_leads,leads.leads_admin,1,0,0,0
 access_leads_students_admin,access_details,model_seminar_students,leads.leads_admin,1,0,0,0
 access_leads_logic,access_details,leads.model_leads_logic,seminar_executive,1,1,1,0
 access_leads_logic_seminar,access_details,model_seminar_leads,leads.leads_admin,1,1,0,0
-access_leads_accounts,access_details,model_seminar_leads,seminar_accounts,1,0,0,0
-
-
-
-
-
-
+access_leads_accounts,access_details,model_seminar_leads,seminar_accounts,1,1,0,0
+access_accountant,access_details,model_expenses_tree_seminar,seminar_accounts,1,1,1,1
+access_adm_incentive,access_details,model_seminar_lead_incentive,seminar_admin,1,1,1,1
