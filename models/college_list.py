@@ -7,7 +7,7 @@ class CollegeList(models.Model):
     _rec_name = 'college_name'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    college_name = fields.Char(string='College Name', required=True, copy=False)
+    college_name = fields.Char(string='Institute Name', required=True, copy=False)
     district = fields.Selection([('wayanad', 'Wayanad'), ('ernakulam', 'Ernakulam'), ('kollam', 'Kollam'),
                                  ('thiruvananthapuram', 'Thiruvananthapuram'), ('kottayam', 'Kottayam'),
                                  ('kozhikode', 'Kozhikode'), ('palakkad', 'Palakkad'), ('kannur', 'Kannur'),

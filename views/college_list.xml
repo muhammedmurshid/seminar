@@ -55,7 +55,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="logic_seminar_colleges_action">
-        <field name="name">Colleges</field>
+        <field name="name">Institutes</field>
         <field name="res_model">college.list</field>
         <field name="view_mode">tree,form</field>
     </record>

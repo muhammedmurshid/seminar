@@ -10,6 +10,7 @@
                     <h3 align="center">Completing the Travel Kilometer Rate Form:</h3>
                     <group>
                         <group>
+                            <field name="type"/>
                             <field name="rate"/>
                         </group>
                     </group>
@@ -27,6 +28,7 @@
         <field name="model">seminar.traveling_rate</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="type"/>
                 <field name="rate"/>
             </tree>
         </field>

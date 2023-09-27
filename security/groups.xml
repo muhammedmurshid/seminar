@@ -9,6 +9,10 @@
             <field name="name">Marketing Executive</field>
             <field name="category_id" ref="module_seminar"/>
         </record>
+        <record id="seminar_executive_head" model="res.groups">
+            <field name="name">Marketing Executive Head</field>
+            <field name="category_id" ref="module_seminar"/>
+        </record>
         <record id="seminar_admin" model="res.groups">
             <field name="name">Admin</field>
             <field name="category_id" ref="module_seminar"/>

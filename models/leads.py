@@ -7,7 +7,7 @@ class SeminarLeads(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'college_id'
 
-    college_id = fields.Many2one('college.list', string='College/School', required=True)
+    college_id = fields.Many2one('college.list', string='Institute Name', required=True)
     district = fields.Selection([('wayanad', 'Wayanad'), ('ernakulam', 'Ernakulam'), ('kollam', 'Kollam'),
                                  ('thiruvananthapuram', 'Thiruvananthapuram'), ('kottayam', 'Kottayam'),
                                  ('kozhikode', 'Kozhikode'), ('palakkad', 'Palakkad'), ('kannur', 'Kannur'),
@@ -107,42 +107,44 @@ class SeminarLeads(models.Model):
 
     incentive_amt = fields.Float(string='Incentive', compute='_total_incentive_amount', store=True)
 
-    class CollegeListsLeads(models.Model):
-        _name = 'seminar.students'
 
-        student_name = fields.Char(string='Student Name', required=True)
-        contact_number = fields.Char(string='Contact Number', required=True)
-        whatsapp_number = fields.Char(string='Whatsapp Number')
-        seminar_id = fields.Many2one('seminar.leads', string='Seminar', ondelete='cascade')
-        place = fields.Char(string='Place')
-        admission_status = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Admission Status', readonly=True,
-                                            default='no')
-        email_address = fields.Char(string='Email Address')
-        parent_number = fields.Char(string='Parent Number')
-        preferred_course = fields.Many2one('logic.base.courses', string='Preferred Course')
+class CollegeListsLeads(models.Model):
+    _name = 'seminar.students'
 
-        @api.depends('student_name')
-        def _compute_seminar_executive(self):
-            res_user = self.env['res.users'].search([('id', '=', self.env.user.id)])
-            if res_user.has_group('seminar.seminar_executive'):
-                self.make_visible_seminar_executive = True
-            else:
-                self.make_visible_seminar_executive = False
+    student_name = fields.Char(string='Student Name', required=True)
+    contact_number = fields.Char(string='Contact Number', required=True)
+    whatsapp_number = fields.Char(string='Whatsapp Number')
+    seminar_id = fields.Many2one('seminar.leads', string='Seminar', ondelete='cascade')
+    place = fields.Char(string='Place')
+    admission_status = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Admission Status', readonly=True,
+                                        default='no')
+    email_address = fields.Char(string='Email Address')
+    parent_number = fields.Char(string='Parent Number')
+    preferred_course = fields.Many2one('logic.base.courses', string='Preferred Course')
 
-        make_visible_seminar_executive = fields.Boolean(string="Executive", compute='_compute_seminar_executive')
+    @api.depends('student_name')
+    def _compute_seminar_executive(self):
+        res_user = self.env['res.users'].search([('id', '=', self.env.user.id)])
+        if res_user.has_group('seminar.seminar_executive'):
+            self.make_visible_seminar_executive = True
+        else:
+            self.make_visible_seminar_executive = False
 
-        @api.depends('incentive', 'student_name')
-        def _total_incentive(self):
-            ss = self.env['seminar.lead.incentive'].search([])
-            for rec in ss:
-                self.incentive = rec.incentive_per_lead
+    make_visible_seminar_executive = fields.Boolean(string="Executive", compute='_compute_seminar_executive')
 
-        incentive = fields.Float(string='Incentive', compute='_total_incentive', store=True)
+    @api.depends('incentive', 'student_name')
+    def _total_incentive(self):
+        ss = self.env['seminar.lead.incentive'].search([])
+        for rec in ss:
+            self.incentive = rec.incentive_per_lead
 
-    class SeminarLeadIncentive(models.Model):
-        _name = 'seminar.lead.incentive'
-        _description = 'Incentive Amount'
-        _inherit = ['mail.thread', 'mail.activity.mixin']
-        _rec_name = 'incentive_per_lead'
+    incentive = fields.Float(string='Incentive', compute='_total_incentive', store=True)
 
-        incentive_per_lead = fields.Float(string='Incentive per lead')
+
+class SeminarLeadIncentive(models.Model):
+    _name = 'seminar.lead.incentive'
+    _description = 'Incentive Amount'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _rec_name = 'incentive_per_lead'
+
+    incentive_per_lead = fields.Float(string='Incentive per lead')
