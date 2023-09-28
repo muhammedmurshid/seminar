@@ -26,7 +26,7 @@ access_leads_accounts,access_details,model_seminar_leads,seminar_accounts,1,1,0,
 access_accountant,access_details,model_expenses_tree_seminar,seminar_accounts,1,1,1,1
 access_adm_incentive,access_details,model_seminar_lead_incentive,seminar_admin,1,1,1,1
 access_seminar_expense_head,access_details,model_seminar_expenses,seminar_executive_head,1,1,0,1
-access_seminar_head,access_details,model_seminar_leads,seminar_executive_head,1,1,0,1
+access_seminar_head,access_details,model_seminar_leads,seminar_executive_head,1,1,1,1
 access_mar_head,access_details,model_expenses_tree_seminar,seminar_executive_head,1,1,0,0
 
 
