@@ -61,7 +61,6 @@
     </record>
 
     <menuitem name="Seminar" id="menu_seminar_colleges_view"
-              action="logic_seminar_leads_action"
               web_icon="seminar/static/description/icon.png"
               sequence="1"/>
     <menuitem name="Institutes List" id="menu_lists_colleges_view"
