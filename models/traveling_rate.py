@@ -7,7 +7,8 @@ class SeminarTravelingRate(models.Model):
     _description = 'Traveling Rate'
 
     rate = fields.Float(string='Rate', required=True)
-    type = fields.Selection([('car', 'Car'), ('bike', 'Bike'), ('bus', 'Bus'), ('train', 'Train')], string='Type')
+    type = fields.Selection([('car', 'Car'), ('bike', 'Bike'), ('bus', 'Bus'), ('train', 'Train')], string='Type',
+                            required=True)
 
     def _compute_display_name(self):
         for rec in self:

@@ -21,14 +21,22 @@ class SeminarLeads(models.Model):
     seminar_ids = fields.One2many('seminar.students', 'seminar_id', string='Seminar')
     lead_source_id = fields.Many2one('leads.sources', string='Lead Source', required=True)
     stream = fields.Char(string='Stream')
+    seminar_duplicate_ids = fields.One2many('duplicate.record.seminar', 'seminar_duplicate_id', string='Seminar')
 
     state = fields.Selection([
         ('draft', 'Draft'), ('done', 'Done')
-    ], string='Status', default='draft')
+    ], string='Status', default='draft', tracking=True)
     # course = fields.Char(string='Course', required=1)
     school = fields.Selection([('hsc', 'HSC'), ('ssc', 'SSC')], string='School')
     reference_no = fields.Char(string='Leads Number', required=True,
                                readonly=True, default=lambda self: _('New'))
+
+    count_duplicate = fields.Integer(string='Count Duplicate', compute='_compute_count_duplicate', store=True)
+
+    @api.depends('seminar_duplicate_ids')
+    def _compute_count_duplicate(self):
+        for record in self:
+            record.count_duplicate = len(record.seminar_duplicate_ids)
 
     @api.depends('seminar_ids')
     def _compute_child_count(self):
@@ -57,8 +65,8 @@ class SeminarLeads(models.Model):
 
     def action_submit(self):
         self.state = 'done'
-        preferred_course = ""
 
+        preferred_course = ""
         for rec in self.seminar_ids:
             preferred_course = ""
             if rec.preferred_course:
@@ -107,6 +115,23 @@ class SeminarLeads(models.Model):
 
     incentive_amt = fields.Float(string='Incentive', compute='_total_incentive_amount', store=True)
 
+    def action_add_to_duplicates(self):
+        record_duplicate = []
+
+        for duplicate in self.seminar_ids:
+            leads_rec = self.env['leads.logic'].sudo().search([('phone_number', '=', duplicate.contact_number)])
+
+            print(duplicate, 'duplicate')
+            if duplicate.contact_number:
+                if leads_rec:
+                    res_list = {
+                        'student_name': duplicate.student_name,
+                        'contact_number': duplicate.contact_number,
+                    }
+                    record_duplicate.append((0, 0, res_list))
+        print(record_duplicate, 'record_duplicate')
+        self.seminar_duplicate_ids = record_duplicate
+
 
 class CollegeListsLeads(models.Model):
     _name = 'seminar.students'
@@ -121,6 +146,7 @@ class CollegeListsLeads(models.Model):
     email_address = fields.Char(string='Email Address')
     parent_number = fields.Char(string='Parent Number')
     preferred_course = fields.Many2one('logic.base.courses', string='Preferred Course')
+
 
     @api.depends('student_name')
     def _compute_seminar_executive(self):
@@ -148,3 +174,18 @@ class SeminarLeadIncentive(models.Model):
     _rec_name = 'incentive_per_lead'
 
     incentive_per_lead = fields.Float(string='Incentive per lead')
+
+
+class DuplicateRecord(models.TransientModel):
+    _name = 'duplicate.record.seminar'
+
+    student_name = fields.Char(string='Student Name', required=True)
+    contact_number = fields.Char(string='Contact Number', required=True)
+    whatsapp_number = fields.Char(string='Whatsapp Number')
+    seminar_duplicate_id = fields.Many2one('seminar.leads', string='Seminar', ondelete='cascade')
+    place = fields.Char(string='Place')
+    admission_status = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Admission Status', readonly=True,
+                                        default='no')
+    email_address = fields.Char(string='Email Address')
+    parent_number = fields.Char(string='Parent Number')
+    preferred_course = fields.Many2one('logic.base.courses', string='Preferred Course')

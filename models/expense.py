@@ -13,27 +13,22 @@ class SeminarExpenses(models.Model):
     payment_expected_date = fields.Date(string='Payment Expected Date')
     exp_ids = fields.One2many('expenses.tree.seminar', 'exp_id', string='Expense')
     state = fields.Selection([
-        ('draft', 'Draft'), ('head_approval', 'Head Approval'), ('done', 'Done'), ('paid', 'Paid'),
+        ('draft', 'Draft'), ('head_approval', 'Head Approval'), ('hr_approval', 'HR Approval'), ('done', 'Done'),
+        ('paid', 'Paid'),
         ('rejected', 'Rejected')
-    ], string='Status', default='draft')
+    ], string='Status', default='draft', tracking=True)
     seminar_user = fields.Many2one('res.users', default=lambda self: self.env.user, readonly=1)
     date = fields.Date('Date', default=lambda self: fields.Date.context_today(self))
-
-    # @api.depends('exp_ids.amount')
-    # def _amount_all(self):
-    #     """
-    #     Compute the total amounts of the SO.
-    #     """
-    #     total = 0
-    #     for order in self.exp_ids:
-    #         total += order.amount
-    #     self.update({
-    #         'total_amount': total,
-    #     })
-    #
-    # total_amount = fields.Float(string='Total Expenses', compute='_amount_all', store=True)
+    car_rate = fields.Float(string='Car Rate', compute='_compute_check_all', store=True, readonly=False)
+    bike_rate = fields.Float(string='Bike Rate', compute='_compute_check_all', store=True, readonly=False)
+    bus_rate = fields.Float(string='Bus Rate', compute='_compute_check_all', store=True, readonly=False)
+    train_rate = fields.Float(string='Train Rate', compute='_compute_check_all', store=True, readonly=False)
     currency_id = fields.Many2one('res.currency', string='Currency', required=True,
                                   default=lambda self: self.env.user.company_id.currency_id)
+    car_check = fields.Boolean(string='Car')
+    bike_check = fields.Boolean(string='Bike')
+    bus_check = fields.Boolean(string='Bus')
+    train_check = fields.Boolean(string='Train')
 
     @api.depends('exp_ids.km_traveled')
     def _compute_km_travelled_all(self):
@@ -69,11 +64,45 @@ class SeminarExpenses(models.Model):
 
         })
 
-    total_traveled_amount = fields.Float(string='Total Traveled Amount', compute='_compute_km_travelled_total_amount', store=True)
+    total_traveled_amount = fields.Float(string='Total Traveled Amount', compute='_compute_km_travelled_total_amount',
+                                         store=True)
 
     def action_submit(self):
+        for i in self.exp_ids:
+            if i.type in 'car':
+                print('ya')
+                self.car_check = True
+            if i.type in 'bike':
+                print('bike ya')
+                self.bike_check = True
+
+            if i.type in 'bus':
+                print('bus ya')
+                self.bus_check = True
+
+            if i.type in 'train':
+                print('train ya')
+                self.train_check = True
 
         self.state = 'head_approval'
+
+    @api.depends('car_check', 'bike_check', 'bus_check', 'train_check')
+    def _compute_check_all(self):
+        rates = self.env['seminar.traveling_rate'].sudo().search([])
+        for rate in rates:
+            if self.car_check == True:
+                if rate.type == 'car':
+                    self.car_rate = rate.rate
+            if self.bike_check == True:
+                if rate.type == 'bike':
+                    self.bike_rate = rate.rate
+            if self.bus_check == True:
+                if rate.type == 'bus':
+                    self.bus_rate = rate.rate
+            if self.train_check == True:
+                if rate.type == 'train':
+                    self.train_rate = rate.rate
+
 
     account_name = fields.Char(string="Account Name")
     account_no = fields.Char(string="Account No")
@@ -83,6 +112,10 @@ class SeminarExpenses(models.Model):
     payment_date = fields.Date(string="Date of Payment", readonly=True)
 
     def action_head_approval(self):
+
+        self.state = 'hr_approval'
+
+    def action_hr_approval(self):
         self.env['payment.request'].sudo().create({
             'source_type': 'seminar',
             'source_user': self.create_uid.id,
@@ -101,6 +134,26 @@ class SeminarExpenses(models.Model):
 
     def action_rejected(self):
         self.state = 'rejected'
+
+    def action_re_calculate(self):
+        for rec in self.exp_ids:
+            if rec.type == 'car':
+                rec.km_amount = rec.km_traveled * self.car_rate
+            if rec.type == 'bike':
+                rec.km_amount = rec.km_traveled * self.bike_rate
+            if rec.type == 'bus':
+                rec.km_amount = rec.km_traveled * self.bus_rate
+            if rec.type == 'train':
+                rec.km_amount = rec.km_traveled * self.train_rate
+
+        payments = self.env['payment.request'].sudo().search([('source_type', '=', 'seminar')])
+        for payment in payments:
+            print(payment.seminar_source.id, 'yyyid')
+            if payment.seminar_source.id == self.id:
+                print(payment.seminar_source.id, 'yyyid')
+                payment.sudo().update({
+                    'amount': self.total_traveled_amount
+                })
 
 
 class ExpensesTreeSeminar(models.Model):

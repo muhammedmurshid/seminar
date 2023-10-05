@@ -30,3 +30,4 @@ access_seminar_head,access_details,model_seminar_leads,seminar_executive_head,1,
 access_mar_head,access_details,model_expenses_tree_seminar,seminar_executive_head,1,1,1,1
 access_college_list_head,access_details,model_college_list,seminar_executive_head,1,1,1,1
 access_lead_list_head,access_details,model_seminar_students,seminar_executive_head,1,1,1,1
+access_duplicate_seminar_rec,access_details,model_duplicate_record_seminar,,1,1,1,1

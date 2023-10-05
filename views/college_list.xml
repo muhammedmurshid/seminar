@@ -11,7 +11,6 @@
                         <h1 class="d-flex flex-row justify-content-between">
                             <field name="college_name" class="o_task_name text-truncate" placeholder="College Name..."
                                    default_focus="1"/>
-
                         </h1>
                     </div>
                     <group>
@@ -24,7 +23,6 @@
                             <field name="district"/>
                             <field name="place"/>
                             <field name="institute_number" placeholder="Institute Number" widget="phone"/>
-
                         </group>
                         <group string="Contact Person Details">
                             <field name="designation"/>

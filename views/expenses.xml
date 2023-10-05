@@ -11,8 +11,15 @@
                     <button name="action_submit" type="object" states="draft" string="Submit" class="oe_highlight"/>
                     <button name="action_head_approval" type="object" states="head_approval" string="Approve"
                             class="oe_highlight" groups="seminar.seminar_executive_head"/>
+                    <button name="action_hr_approval" class="oe_highlight" type="object" states="hr_approval"
+                            string="Approve" groups="seminar.seminar_admin"/>
+                    <button name="action_rejected" type="object" states="hr_approval" string="Reject"
+                            groups="seminar.seminar_admin"/>
                     <button name="action_rejected" type="object" states="head_approval" string="Reject"
                             groups="seminar.seminar_executive_head"/>
+                    <button name="action_re_calculate" type="object" states="done" string="Recalculate" style="background-color:#eb9534"
+                            groups="seminar.seminar_accounts"/>
+
                 </header>
                 <sheet>
                     <widget name="web_ribbon" text="PAID" bg_color="bg-success"
@@ -45,6 +52,21 @@
                                     <!--                                    <field name="amount" widget="monetary"/>-->
                                 </tree>
                             </field>
+                            <group>
+                                <group>
+                                    <field name="car_check" invisible="1"/>
+                                    <field name="bike_check" invisible="1"/>
+                                    <field name="bus_check" invisible="1"/>
+                                    <field name="train_check" invisible="1"/>
+
+                                    <field name="car_rate" attrs="{'invisible': [('car_check', '=', False)]}"
+                                           groups="seminar.seminar_accounts" widget="monetary"/>
+                                    <field name="bike_rate" attrs="{'invisible': [('bike_check', '=', False)]}" groups="seminar.seminar_accounts" widget="monetary"/>
+                                    <field name="bus_rate" attrs="{'invisible': [('bus_check', '=', False)]}" groups="seminar.seminar_accounts" widget="monetary"/>
+                                    <field name="train_rate" attrs="{'invisible': [('train_check', '=', False)]}" groups="seminar.seminar_accounts" widget="monetary"/>
+
+                                </group>
+                            </group>
                         </page>
                         <page string="Bank Details" name="details">
                             <group>
@@ -63,7 +85,7 @@
                         <field name="km_amount"
                                widget='monetary'
                                options="{'currency_field': 'currency_id'}"/>
-<!--                        <field name="km_amount_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+                        <!--                        <field name="km_amount_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
                         <div class="oe_subtotal_footer_separator oe_inline">
                             <label for="total_traveled_amount"/>
                         </div>
