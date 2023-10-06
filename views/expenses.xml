@@ -17,7 +17,8 @@
                             groups="seminar.seminar_admin"/>
                     <button name="action_rejected" type="object" states="head_approval" string="Reject"
                             groups="seminar.seminar_executive_head"/>
-                    <button name="action_re_calculate" type="object" states="done" string="Recalculate" style="background-color:#eb9534"
+                    <button name="action_re_calculate" type="object" states="done" string="Recalculate"
+                            style="background-color:#eb9534"
                             groups="seminar.seminar_accounts"/>
 
                 </header>
@@ -61,9 +62,12 @@
 
                                     <field name="car_rate" attrs="{'invisible': [('car_check', '=', False)]}"
                                            groups="seminar.seminar_accounts" widget="monetary"/>
-                                    <field name="bike_rate" attrs="{'invisible': [('bike_check', '=', False)]}" groups="seminar.seminar_accounts" widget="monetary"/>
-                                    <field name="bus_rate" attrs="{'invisible': [('bus_check', '=', False)]}" groups="seminar.seminar_accounts" widget="monetary"/>
-                                    <field name="train_rate" attrs="{'invisible': [('train_check', '=', False)]}" groups="seminar.seminar_accounts" widget="monetary"/>
+                                    <field name="bike_rate" attrs="{'invisible': [('bike_check', '=', False)]}"
+                                           groups="seminar.seminar_accounts" widget="monetary"/>
+                                    <field name="bus_rate" attrs="{'invisible': [('bus_check', '=', False)]}"
+                                           groups="seminar.seminar_accounts" widget="monetary"/>
+                                    <field name="train_rate" attrs="{'invisible': [('train_check', '=', False)]}"
+                                           groups="seminar.seminar_accounts" widget="monetary"/>
 
                                 </group>
                             </group>
@@ -111,7 +115,8 @@
             <tree>
                 <field name="purpose"/>
                 <field name="payment_expected_date"/>
-                <field name="state"/>
+                <field name="state" widget="badge" decoration-success="state == 'paid'"
+                       decoration-info="state == 'done'" decoration-danger="state == 'rejected'"/>
 
             </tree>
 

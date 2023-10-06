@@ -90,18 +90,19 @@ class SeminarExpenses(models.Model):
     def _compute_check_all(self):
         rates = self.env['seminar.traveling_rate'].sudo().search([])
         for rate in rates:
-            if self.car_check == True:
-                if rate.type == 'car':
-                    self.car_rate = rate.rate
-            if self.bike_check == True:
-                if rate.type == 'bike':
-                    self.bike_rate = rate.rate
-            if self.bus_check == True:
-                if rate.type == 'bus':
-                    self.bus_rate = rate.rate
-            if self.train_check == True:
-                if rate.type == 'train':
-                    self.train_rate = rate.rate
+            for check in self:
+                if check.car_check == True:
+                    if rate.type == 'car':
+                        check.car_rate = rate.rate
+                if check.bike_check == True:
+                    if rate.type == 'bike':
+                        check.bike_rate = rate.rate
+                if check.bus_check == True:
+                    if rate.type == 'bus':
+                        check.bus_rate = rate.rate
+                if check.train_check == True:
+                    if rate.type == 'train':
+                        check.train_rate = rate.rate
 
 
     account_name = fields.Char(string="Account Name")

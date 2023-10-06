@@ -12,8 +12,8 @@
                     <button name="action_done_leads_manager" string="Done" class="oe_highlight"
                             type="object" groups="leads.leads_admin" help="Remove this seminar lead from the Activity"
                             attrs="{'invisible': ['|',('state', 'in', ['draft']),('activity_done', '=', True)]}"/>
-                    <button name="action_add_to_duplicates" type="object" string="Add To Duplicates" class="oe_highlight"
-                            invisible="1"/>
+                    <button name="action_add_to_duplicates" type="object" string="Add To Duplicates"
+                            style="background-color: #ff6d4d" states="draft"/>
                 </header>
                 <sheet>
                     <h2>
@@ -58,9 +58,9 @@
                             </div>
 
                         </page>
-                        <page string="Duplicates" name="duplicates" invisible="1">
+                        <page string="Duplicates" name="duplicates">
                             <field name="seminar_duplicate_ids">
-                                    <tree string="Duplicates" editable="bottom">
+                                <tree string="Duplicates" editable="bottom">
                                     <field name="student_name"/>
                                     <field name="preferred_course"/>
                                     <field name="contact_number" widget="phone"/>
@@ -68,12 +68,15 @@
                                     <field name="parent_number" widget="phone"/>
                                     <field name="email_address" widget="mail"/>
                                     <field name="place"/>
+                                    <field name="selected_lead" readonly="1"/>
                                     <field name="admission_status"/>
+                                    <field name="incentive"/>
                                 </tree>
                             </field>
                             <group class="oe_subtotal_footer oe_right">
                                 <group>
                                     <field name="count_duplicate"/>
+                                    <field name="selected_duplicates_count"/>
                                 </group>
                             </group>
 
@@ -107,7 +110,8 @@
                 <field name="create_uid" string="Owner"/>
                 <field name="college_id"/>
                 <field name="district"/>
-                <field name="state"/>
+                <field name="count" string="Leads Count"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'"/>
             </tree>
         </field>
     </record>
