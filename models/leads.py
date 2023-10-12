@@ -88,7 +88,7 @@ class SeminarLeads(models.Model):
                 'seminar_lead_id': rec.id,
                 'email_address': rec.email_address,
                 'base_course_id': rec.preferred_course.id,
-                'lead_quality': 'Interested',
+                'lead_quality': 'nill',
                 'district': self.district,
                 'phone_number_second': rec.whatsapp_number,
                 'parent_number': rec.parent_number
