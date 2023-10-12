@@ -42,13 +42,14 @@
                         <page string="Expenses List" name="goals">
                             <field name="exp_ids">
                                 <tree string="Students List" editable="bottom">
+                                    <field name="currency_id" invisible="1"/>
                                     <field name="date"/>
                                     <field name="particulars"/>
                                     <field name="type"/>
                                     <field name="institute"/>
                                     <field name="institute_number"/>
                                     <field name="km_traveled"/>
-                                    <field name="km_amount"/>
+                                    <field name="km_amount" widget="monetary"/>
 
                                     <!--                                    <field name="amount" widget="monetary"/>-->
                                 </tree>
@@ -114,6 +115,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="purpose"/>
+                <field name="seminar_user"/>
                 <field name="payment_expected_date"/>
                 <field name="state" widget="badge" decoration-success="state == 'paid'"
                        decoration-info="state == 'done'" decoration-danger="state == 'rejected'"/>

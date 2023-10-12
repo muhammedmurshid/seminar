@@ -169,6 +169,7 @@ class ExpensesTreeSeminar(models.Model):
     type = fields.Selection([('car', 'Car'), ('bike', 'Bike'), ('bus', 'Bus'), ('train', 'Train')], string='Type')
     institute_number = fields.Char(string='Institute Number', related='institute.institute_number')
     exp_id = fields.Many2one('seminar.expenses', string='Expense', ondelete='cascade')
+    currency_id = fields.Many2one('res.currency', string='Currency', default=lambda self: self.env.user.company_id.currency_id)
 
     @api.depends('km_traveled', 'type')
     def _compute_km_travelled_amount(self):
