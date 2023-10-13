@@ -7,18 +7,21 @@ class SeminarLeads(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'college_id'
 
-    college_id = fields.Many2one('college.list', string='Institute Name', required=True)
+    college_id = fields.Many2one('college.list', string='Institute Name')
+    lead_source_id = fields.Many2one('leads.sources', string='Lead Source', required=True)
+    lead_sc_name = fields.Char(string='Lead Sc Name', related='lead_source_id.name')
     district = fields.Selection([('wayanad', 'Wayanad'), ('ernakulam', 'Ernakulam'), ('kollam', 'Kollam'),
                                  ('thiruvananthapuram', 'Thiruvananthapuram'), ('kottayam', 'Kottayam'),
                                  ('kozhikode', 'Kozhikode'), ('palakkad', 'Palakkad'), ('kannur', 'Kannur'),
                                  ('alappuzha', 'Alappuzha'), ('malappuram', 'Malappuram'), ('kasaragod', 'Kasaragod'),
                                  ('thrissur', 'Thrissur'), ('idukki', 'Idukki'), ('pathanamthitta', 'Pathanamthitta'),
                                  ('abroad', 'Abroad'), ('other', 'Other')],
-                                string='District', required=True)
+                                string='District')
     booked_by = fields.Many2one('hr.employee', string='Booked By')
     attended_by = fields.Many2one('hr.employee', string='Attended By')
     seminar_ids = fields.One2many('seminar.students', 'seminar_id', string='Seminar')
-    lead_source_id = fields.Many2one('leads.sources', string='Lead Source', required=True)
+    coordinator_id = fields.Many2one('hr.employee', string='Programme Coordinator')
+    hosted_by_id = fields.Many2one('hr.employee', string='Hosted By')
     stream = fields.Char(string='Stream')
     seminar_duplicate_ids = fields.One2many('duplicate.record.seminar', 'seminar_duplicate_id', string='Seminar')
     state = fields.Selection([
@@ -42,7 +45,7 @@ class SeminarLeads(models.Model):
 
     child_count = fields.Integer(string='Lead Count', compute='_compute_child_count', store=True)
 
-    @api.depends('child_count','count_duplicate')
+    @api.depends('child_count', 'count_duplicate')
     def _compute_total_leads_count(self):
         for record in self:
             record.count = record.child_count + record.count_duplicate
@@ -77,40 +80,77 @@ class SeminarLeads(models.Model):
                 preferred_course += rec.preferred_course.name
             else:
                 preferred_course += 'None'
-            self.env['leads.logic'].sudo().create({
-                'leads_source': self.lead_source_id.id,
-                'phone_number': rec.contact_number,
-                'name': rec.student_name,
-                'lead_owner': self.create_uid.employee_id.id,
-                'place': rec.place,
-                'college_name': self.college_id.college_name,
-                # 'last_studied_course': self.course,
-                'seminar_lead_id': rec.id,
-                'email_address': rec.email_address,
-                'base_course_id': rec.preferred_course.id,
-                'lead_quality': 'nill',
-                'district': self.district,
-                'phone_number_second': rec.whatsapp_number,
-                'parent_number': rec.parent_number
-            })
+            if self.lead_sc_name == 'Seminar':
+                self.env['leads.logic'].sudo().create({
+                    'leads_source': self.lead_source_id.id,
+                    'phone_number': rec.contact_number,
+                    'name': rec.student_name,
+                    'lead_owner': self.create_uid.employee_id.id,
+                    'place': rec.place,
+                    'college_name': self.college_id.college_name,
+                    # 'last_studied_course': self.course,
+                    'seminar_lead_id': rec.id,
+                    'email_address': rec.email_address,
+                    'base_course_id': rec.preferred_course.id,
+                    'lead_quality': 'nill',
+                    'district': self.district,
+                    'phone_number_second': rec.whatsapp_number,
+                    'parent_number': rec.parent_number
+                })
+            else:
+                self.env['leads.logic'].sudo().create({
+                    'leads_source': self.lead_source_id.id,
+                    'phone_number': rec.contact_number,
+                    'name': rec.student_name,
+                    'lead_owner': self.create_uid.employee_id.id,
+                    'place': rec.place,
+                    'college_name': 'nill',
+                    # 'last_studied_course': self.course,
+                    'seminar_lead_id': rec.id,
+                    'email_address': rec.email_address,
+                    'base_course_id': rec.preferred_course.id,
+                    'lead_quality': 'nill',
+                    'district': rec.district,
+                    'phone_number_second': rec.whatsapp_number,
+                    'parent_number': rec.parent_number
+                })
         for request in self.seminar_duplicate_ids:
-            self.env['re_allocation.request.leads'].sudo().create({
-                'leads_source': self.lead_source_id.id,
-                'phone_number': request.contact_number,
-                'name': request.student_name,
-                'duplicate_record_id': request.id,
-                'lead_owner': self.create_uid.employee_id.id,
-                'place': request.place,
-                'college_name': self.college_id.college_name,
-                # 'last_studied_course': self.course,
-                'seminar_lead_id': request.id,
-                'email_address': request.email_address,
-                'base_course_id': request.preferred_course.id,
-                'lead_quality': 'Interested',
-                'district': self.district,
-                'phone_number_second': request.whatsapp_number,
-                'parent_number': request.parent_number
-            })
+            if request.district:
+                self.env['re_allocation.request.leads'].sudo().create({
+                    'leads_source': self.lead_source_id.id,
+                    'phone_number': request.contact_number,
+                    'name': request.student_name,
+                    'duplicate_record_id': request.id,
+                    'lead_owner': self.create_uid.employee_id.id,
+                    'place': request.place,
+                    'college_name': 'nill',
+                    # 'last_studied_course': self.course,
+                    'seminar_lead_id': request.id,
+                    'email_address': request.email_address,
+                    'base_course_id': request.preferred_course.id,
+                    'lead_quality': 'Interested',
+                    'district': request.district,
+                    'phone_number_second': request.whatsapp_number,
+                    'parent_number': request.parent_number
+                })
+            else:
+                self.env['re_allocation.request.leads'].sudo().create({
+                    'leads_source': self.lead_source_id.id,
+                    'phone_number': request.contact_number,
+                    'name': request.student_name,
+                    'duplicate_record_id': request.id,
+                    'lead_owner': self.create_uid.employee_id.id,
+                    'place': request.place,
+                    'college_name': self.college_id.college_name,
+                    # 'last_studied_course': self.course,
+                    'seminar_lead_id': request.id,
+                    'email_address': request.email_address,
+                    'base_course_id': request.preferred_course.id,
+                    'lead_quality': 'Interested',
+                    'district': self.district,
+                    'phone_number_second': request.whatsapp_number,
+                    'parent_number': request.parent_number
+                })
         res_user = self.env['res.users'].search([])
         leads = self.env['leads.logic'].search([])
         for user in res_user:
@@ -149,6 +189,13 @@ class SeminarLeads(models.Model):
                     res_list = {
                         'student_name': duplicate.student_name,
                         'contact_number': duplicate.contact_number,
+                        'district': duplicate.district,
+                        'preferred_course': duplicate.preferred_course.id,
+                        'whatsapp_number': duplicate.whatsapp_number,
+                        'parent_number': duplicate.parent_number,
+                        'email_address': duplicate.email_address,
+                        'place': duplicate.place,
+
                     }
                     record_duplicate.append((0, 0, res_list))
                     duplicate.unlink()
@@ -160,7 +207,8 @@ class SeminarLeads(models.Model):
         for record in self:
             record.selected_duplicates_count = len(record.seminar_duplicate_ids.filtered(lambda x: x.selected_lead))
 
-    selected_duplicates_count = fields.Integer(compute='_compute_selected_duplicates_count', store=True, string='Selected Duplicates')
+    selected_duplicates_count = fields.Integer(compute='_compute_selected_duplicates_count', store=True,
+                                               string='Selected Duplicates')
 
 
 class CollegeListsLeads(models.Model):
@@ -175,6 +223,14 @@ class CollegeListsLeads(models.Model):
                                         default='no')
     email_address = fields.Char(string='Email Address')
     parent_number = fields.Char(string='Parent Number')
+    lead_sc_name = fields.Char(string='Lead Source', related='seminar_id.lead_sc_name')
+    district = fields.Selection([('wayanad', 'Wayanad'), ('ernakulam', 'Ernakulam'), ('kollam', 'Kollam'),
+                                 ('thiruvananthapuram', 'Thiruvananthapuram'), ('kottayam', 'Kottayam'),
+                                 ('kozhikode', 'Kozhikode'), ('palakkad', 'Palakkad'), ('kannur', 'Kannur'),
+                                 ('alappuzha', 'Alappuzha'), ('malappuram', 'Malappuram'), ('kasaragod', 'Kasaragod'),
+                                 ('thrissur', 'Thrissur'), ('idukki', 'Idukki'), ('pathanamthitta', 'Pathanamthitta'),
+                                 ('abroad', 'Abroad'), ('other', 'Other')],
+                                string='District')
     preferred_course = fields.Many2one('logic.base.courses', string='Preferred Course')
 
     @api.depends('student_name')
@@ -215,6 +271,13 @@ class DuplicateRecord(models.TransientModel):
     place = fields.Char(string='Place')
     admission_status = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Admission Status', readonly=True,
                                         default='no')
+    district = fields.Selection([('wayanad', 'Wayanad'), ('ernakulam', 'Ernakulam'), ('kollam', 'Kollam'),
+                                 ('thiruvananthapuram', 'Thiruvananthapuram'), ('kottayam', 'Kottayam'),
+                                 ('kozhikode', 'Kozhikode'), ('palakkad', 'Palakkad'), ('kannur', 'Kannur'),
+                                 ('alappuzha', 'Alappuzha'), ('malappuram', 'Malappuram'), ('kasaragod', 'Kasaragod'),
+                                 ('thrissur', 'Thrissur'), ('idukki', 'Idukki'), ('pathanamthitta', 'Pathanamthitta'),
+                                 ('abroad', 'Abroad'), ('other', 'Other')],
+                                string='District')
     email_address = fields.Char(string='Email Address')
     parent_number = fields.Char(string='Parent Number')
     preferred_course = fields.Many2one('logic.base.courses', string='Preferred Course')
@@ -229,4 +292,3 @@ class DuplicateRecord(models.TransientModel):
                     i.incentive = rec.incentive_per_lead
 
     incentive = fields.Float(string='Incentive', compute='_total_incentive', store=True)
-

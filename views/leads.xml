@@ -21,17 +21,21 @@
                     </h2>
                     <group>
                         <group>
-                            <field name="college_id"/>
-                            <field name="district"/>
+                            <field name="lead_source_id"/>
+                            <field name="lead_sc_name" invisible="1"/>
+                            <field name="college_id" attrs="{'required': [('lead_sc_name', '=', 'Seminar')], 'invisible': [('lead_sc_name', '!=', 'Seminar')]}"/>
+                            <field name="district" attrs="{'required': [('lead_sc_name', '=', 'Seminar')], 'invisible': [('lead_sc_name', '!=', 'Seminar')]}"/>
                             <field name="activity_done" invisible="1"/>
                             <!--                            <field name="school"/>-->
                             <!--                            <field name="course"/>-->
-                            <field name="lead_source_id"/>
+
                         </group>
                         <group>
                             <field name="stream"/>
-                            <field name="booked_by"/>
-                            <field name="attended_by"/>
+                            <field name="coordinator_id" attrs="{'invisible': [('lead_sc_name', '!=', 'Webinar')]}"/>
+                            <field name="hosted_by_id" attrs="{'invisible': [('lead_sc_name', '!=', 'Webinar')]}"/>
+                            <field name="booked_by" attrs="{'invisible': [('lead_sc_name', '!=', 'Seminar')]}"/>
+                            <field name="attended_by" attrs="{'invisible': [('lead_sc_name', '!=', 'Seminar')]}"/>
                         </group>
                     </group>
                     <notebook>
@@ -44,6 +48,8 @@
                                     <field name="whatsapp_number" widget="phone"/>
                                     <field name="parent_number" widget="phone"/>
                                     <field name="email_address" widget="mail"/>
+                                    <field name="lead_sc_name" invisible="1"/>
+                                    <field name="district" attrs="{'required': [('lead_sc_name', '=', 'Webinar')], 'invisible': [('lead_sc_name', '=', 'Seminar')]}"/>
                                     <field name="place"/>
                                     <field name="admission_status"/>
                                     <field name="make_visible_seminar_executive" invisible="1"/>
@@ -67,6 +73,7 @@
                                     <field name="whatsapp_number" widget="phone"/>
                                     <field name="parent_number" widget="phone"/>
                                     <field name="email_address" widget="mail"/>
+                                    <field name="district"/>
                                     <field name="place"/>
                                     <field name="selected_lead" readonly="1"/>
                                     <field name="admission_status"/>
