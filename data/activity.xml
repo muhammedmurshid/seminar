@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+     <data>
+        <record id="seminar_expense_activity" model="mail.activity.type">
+            <field name="name">Seminar Expense</field>
+            <field name="res_model_id" ref="seminar.model_seminar_expenses"/>
+            <field name="delay_count">30</field>
+        </record>
+    </data>
+</odoo>

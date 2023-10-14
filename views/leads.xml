@@ -21,7 +21,7 @@
                     </h2>
                     <group>
                         <group>
-                            <field name="lead_source_id"/>
+                            <field name="lead_source_id" options="{'no_create': True}"/>
                             <field name="lead_sc_name" invisible="1"/>
                             <field name="college_id" attrs="{'required': [('lead_sc_name', '=', 'Seminar')], 'invisible': [('lead_sc_name', '!=', 'Seminar')]}"/>
                             <field name="district" attrs="{'required': [('lead_sc_name', '=', 'Seminar')], 'invisible': [('lead_sc_name', '!=', 'Seminar')]}"/>

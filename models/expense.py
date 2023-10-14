@@ -113,10 +113,17 @@ class SeminarExpenses(models.Model):
     payment_date = fields.Date(string="Date of Payment", readonly=True)
 
     def action_head_approval(self):
-
+        res_user = self.env['res.users'].search([])
+        for user in res_user:
+            if user.has_group('seminar.seminar_admin'):
+                self.activity_schedule('seminar.seminar_expense_activity', user_id=user.id,
+                                       note=f'Seminar Expense Approval request.')
         self.state = 'hr_approval'
 
     def action_hr_approval(self):
+        batches_feedback = self.env['mail.activity'].search([('res_id', '=', self.id), (
+            'activity_type_id', '=', self.env.ref('seminar.seminar_expense_activity').id)])
+        batches_feedback.action_feedback(feedback='Seminar Expense has been approved')
         self.env['payment.request'].sudo().create({
             'source_type': 'seminar',
             'source_user': self.create_uid.id,
