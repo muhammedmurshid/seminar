@@ -18,6 +18,7 @@ class SeminarLeads(models.Model):
                                  ('abroad', 'Abroad'), ('other', 'Other')],
                                 string='District')
     booked_by = fields.Many2one('hr.employee', string='Booked By')
+    seminar_date = fields.Date(string='Date')
     attended_by = fields.Many2one('hr.employee', string='Attended By')
     seminar_ids = fields.One2many('seminar.students', 'seminar_id', string='Seminar')
     coordinator_id = fields.Many2one('hr.employee', string='Programme Coordinator')

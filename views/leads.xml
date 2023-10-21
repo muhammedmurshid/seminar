@@ -26,6 +26,7 @@
                             <field name="college_id" attrs="{'required': [('lead_sc_name', 'in', ['Seminar','Seminar Data'])], 'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])]}"/>
                             <field name="district" attrs="{'required': [('lead_sc_name', 'in', ['Seminar','Seminar Data'])], 'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])]}"/>
                             <field name="activity_done" invisible="1"/>
+                            <field name="seminar_date"/>
                             <!--                            <field name="school"/>-->
                             <!--                            <field name="course"/>-->
 
