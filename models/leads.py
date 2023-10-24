@@ -81,7 +81,7 @@ class SeminarLeads(models.Model):
                 preferred_course += rec.preferred_course.name
             else:
                 preferred_course += 'None'
-            if self.lead_sc_name == 'Seminar':
+            if self.lead_sc_name == 'Seminar' or self.lead_sc_name == 'Seminar Data':
                 self.env['leads.logic'].sudo().create({
                     'leads_source': self.lead_source_id.id,
                     'phone_number': rec.contact_number,
