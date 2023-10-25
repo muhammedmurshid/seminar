@@ -17,6 +17,7 @@
         'views/payments.xml',
         'views/km_traveling_rate.xml',
         'data/activity.xml',
+        'views/target.xml',
 
     ],
     'demo': [],

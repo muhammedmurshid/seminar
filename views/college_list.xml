@@ -61,6 +61,9 @@
     <menuitem name="Seminar" id="menu_seminar_colleges_view"
               web_icon="seminar/static/description/icon.png"
               sequence="1"/>
+    <menuitem name="Configuration" id="menu_config_seminar_view"
+              parent="menu_seminar_colleges_view"
+              sequence="10"/>
     <menuitem name="Institutes List" id="menu_lists_colleges_view"
               action="logic_seminar_colleges_action"
               parent="menu_seminar_colleges_view"

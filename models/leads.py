@@ -73,14 +73,18 @@ class SeminarLeads(models.Model):
 
     def action_submit(self):
         self.state = 'done'
-
-        preferred_course = ""
         for rec in self.seminar_ids:
-            preferred_course = ""
-            if rec.preferred_course:
-                preferred_course += rec.preferred_course.name
-            else:
-                preferred_course += 'None'
+            course = self.env['logic.base.courses'].sudo().search([('name', '=', 'Nill')], limit=1)
+            print(course.id, 'course')
+
+            # if rec.preferred_course:
+            #     preferred_course = rec.preferred_course.id
+            #     preferred_course.append(rec.preferred_course.id)
+            # else:
+            #     preferred_course += 'None'
+            if not rec.preferred_course:
+                rec.preferred_course = course.id
+                # preferred_course.append(course.id)
             if self.lead_sc_name == 'Seminar' or self.lead_sc_name == 'Seminar Data':
                 self.env['leads.logic'].sudo().create({
                     'leads_source': self.lead_source_id.id,
@@ -98,6 +102,7 @@ class SeminarLeads(models.Model):
                     'phone_number_second': rec.whatsapp_number,
                     'parent_number': rec.parent_number
                 })
+
             else:
                 self.env['leads.logic'].sudo().create({
                     'leads_source': self.lead_source_id.id,
@@ -115,6 +120,7 @@ class SeminarLeads(models.Model):
                     'phone_number_second': rec.whatsapp_number,
                     'parent_number': rec.parent_number
                 })
+
         for request in self.seminar_duplicate_ids:
             if request.district:
                 self.env['re_allocation.request.leads'].sudo().create({
