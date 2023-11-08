@@ -6,7 +6,6 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="incentive_per_lead"/>
-
             </tree>
 
         </field>
@@ -42,12 +41,107 @@
     <menuitem name="Configuration" id="menu_seminar_config"
               parent="menu_seminar_colleges_view"
               groups="seminar.seminar_accounts"
-              sequence="5"/>
+              sequence="15"/>
 
     <menuitem name="Executive Incentive" id="menu_tickets_view"
               action="incentive_seminar_action"
               parent="menu_seminar_config"
               groups="seminar.seminar_accounts"
               sequence="1"/>
+
+
+    <record id="seminar_lead_incentive_payments" model="ir.ui.view">
+        <field name="name">Leads Incentive</field>
+        <field name="model">seminar.lead.incentive.records</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="lead_user_id"/>
+                <field name="state" widget="badge" decoration-success="state == 'paid'"
+                       decoration-danger="state == 'rejected'" decoration-info="state == 'hr_approval'"
+                       decoration-primary="state == 'payment_requested'"/>
+            </tree>
+
+        </field>
+    </record>
+    <record id="seminar_leads_incentive_form_view" model="ir.ui.view">
+        <field name="name">Seminar Incentive</field>
+        <field name="model">seminar.lead.incentive.records</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Form">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button name="total_incentive" string="Confirm" type="object" class="oe_highlight" states="draft"/>
+                    <button name="action_sent_to_approve" string="Sent to Approve" type="object" class="oe_highlight"
+                            states="sent_approval" groups="seminar.seminar_executive_head"/>
+                    <button name="action_hr_approval" string="HR Approval" type="object" class="oe_highlight"
+                            states="hr_approval" groups="seminar.seminar_admin"/>
+                    <button name="action_rejected" string="Reject" type="object" states="hr_approval"
+                            groups="seminar.seminar_admin"/>
+                    <button name="action_return_to_draft" string="Return to Draft" type="object" states="sent_approval"
+                            groups="seminar.seminar_executive_head"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Paid" bg_color="bg-success"
+                            attrs="{'invisible': [('state', '!=', 'paid')]}"/>
+                    <group>
+                        <group>
+                            <field name="date_from" required="1"/>
+                            <field name="date_to" required="1"/>
+<!--                            <field name="lead_user_id" required="1"/>-->
+                        </group>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <!--                            <field name="incentive_amount"/>-->
+                            <field name="seminar_ids" attrs="{'invisible': [('state', '=', 'draft')]}" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="payment_date" attrs="{'invisible': [('state', '!=', 'paid')]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Incentives" name="incentives">
+                            <field name="leads_list_ids" widget="one2many">
+                                <tree string="Incentives" editable="bottom">
+                                    <field name="date"/>
+                                    <field name="user_id"/>
+                                    <field name="record_id"/>
+                                    <field name="attended_by"/>
+                                    <field name="booked_by"/>
+                                    <field name="both"/>
+                                    <field name="incentive_amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                    <group name="incentive_amount" col="6" attrs="{'invisible': [('state', '=', 'draft')]}">
+                        <group class="oe_subtotal_footer oe_right" colspan="2" name="incentive_amount">
+                            <field name="incentive_amount" widget="monetary"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="incentive_action_leads">
+        <field name="name">Leads Incentive</field>
+        <field name="res_model">seminar.lead.incentive.records</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Leads Incentive" id="menu_seminar_leads_incentive_view"
+              parent="menu_lists_sem_exp_view_main"
+              action="incentive_action_leads"
+              sequence="5"/>
 
 </odoo>

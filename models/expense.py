@@ -198,6 +198,7 @@ class PaymentModel(models.Model):
     )
     seminar_source = fields.Many2one('seminar.expenses', string="SFC Source")
     seminar_executive = fields.Many2one('res.users', string="Seminar Executive")
+    seminar_incentive_source = fields.Many2one('seminar.lead.incentive.records', string="Incentive Source")
 
 
 class AccountPaymentInheritSeminar(models.Model):
@@ -212,6 +213,11 @@ class AccountPaymentInheritSeminar(models.Model):
             })
             if self.payment_request_id.seminar_source:
                 self.payment_request_id.seminar_source.sudo().write({
+                    'state': 'paid',
+                    'payment_date': datetime.today()
+                })
+            if self.payment_request_id.seminar_incentive_source:
+                self.payment_request_id.seminar_incentive_source.sudo().write({
                     'state': 'paid',
                     'payment_date': datetime.today()
                 })

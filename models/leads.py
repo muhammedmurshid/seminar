@@ -74,7 +74,7 @@ class SeminarLeads(models.Model):
     def action_submit(self):
         self.state = 'done'
         for rec in self.seminar_ids:
-            course = self.env['logic.base.courses'].sudo().search([('name', '=', 'Nill')], limit=1)
+            course = self.env['logic.base.courses'].sudo().search([('name', '=', 'Nil')], limit=1)
             print(course.id, 'course')
 
             # if rec.preferred_course:
@@ -97,7 +97,7 @@ class SeminarLeads(models.Model):
                     'seminar_lead_id': rec.id,
                     'email_address': rec.email_address,
                     'base_course_id': rec.preferred_course.id,
-                    'lead_quality': 'nill',
+                    'lead_quality': 'nil',
                     'district': self.district,
                     'phone_number_second': rec.whatsapp_number,
                     'parent_number': rec.parent_number
@@ -110,12 +110,12 @@ class SeminarLeads(models.Model):
                     'name': rec.student_name,
                     'lead_owner': self.create_uid.employee_id.id,
                     'place': rec.place,
-                    'college_name': 'nill',
+                    'college_name': 'nil',
                     # 'last_studied_course': self.course,
                     'seminar_lead_id': rec.id,
                     'email_address': rec.email_address,
                     'base_course_id': rec.preferred_course.id,
-                    'lead_quality': 'nill',
+                    'lead_quality': 'nil',
                     'district': rec.district,
                     'phone_number_second': rec.whatsapp_number,
                     'parent_number': rec.parent_number
@@ -130,7 +130,7 @@ class SeminarLeads(models.Model):
                     'duplicate_record_id': request.id,
                     'lead_owner': self.create_uid.employee_id.id,
                     'place': request.place,
-                    'college_name': 'nill',
+                    'college_name': 'nil',
                     # 'last_studied_course': self.course,
                     'seminar_lead_id': request.id,
                     'email_address': request.email_address,

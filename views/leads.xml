@@ -54,7 +54,7 @@
                                     <field name="place"/>
                                     <field name="admission_status"/>
                                     <field name="make_visible_seminar_executive" invisible="1"/>
-                                    <field name="incentive" groups="seminar.seminar_accounts"/>
+                                    <field name="incentive" />
                                 </tree>
                             </field>
                             <div>
@@ -115,6 +115,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="reference_no"/>
+                <field name="lead_source_id"/>
                 <field name="create_uid" string="Owner"/>
                 <field name="college_id"/>
                 <field name="district"/>

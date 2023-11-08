@@ -131,8 +131,11 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem name="Expenses" id="menu_lists_sem_exp_view"
-              action="logic_seminar_expenses_action"
+    <menuitem name="Payments" id="menu_lists_sem_exp_view_main"
               parent="menu_seminar_colleges_view"
               sequence="3"/>
+    <menuitem name="Expenses" id="menu_lists_sem_exp_view"
+              action="logic_seminar_expenses_action"
+              parent="menu_lists_sem_exp_view_main"
+              sequence="1"/>
 </odoo>

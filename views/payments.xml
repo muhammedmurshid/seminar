@@ -9,6 +9,7 @@
                 <field name="seminar_source" attrs="{'invisible': [('source_type', '!=', 'seminar')]}"
                     string="Seminar Source"/>
                 <field name="seminar_executive" attrs="{'invisible': [('source_type', '!=', 'seminar')]}"/>
+                <field name="seminar_incentive_source" attrs="{'invisible': [('description', '!=', 'Seminar Incentive')]}"/>
             </xpath>
         </field>
     </record>

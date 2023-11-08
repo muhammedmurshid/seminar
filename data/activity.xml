@@ -6,5 +6,10 @@
             <field name="res_model_id" ref="seminar.model_seminar_expenses"/>
             <field name="delay_count">30</field>
         </record>
+         <record id="seminar_incentive_activity" model="mail.activity.type">
+            <field name="name">Seminar Incentive</field>
+            <field name="res_model_id" ref="seminar.model_seminar_lead_incentive_records"/>
+            <field name="delay_count">30</field>
+        </record>
     </data>
 </odoo>
