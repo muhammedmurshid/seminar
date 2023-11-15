@@ -222,4 +222,10 @@ class AccountPaymentInheritSeminar(models.Model):
                     'payment_date': datetime.today()
                 })
 
+            if self.payment_request_id.cip_rec_id:
+                self.payment_request_id.cip_rec_id.sudo().write({
+                    'state': 'paid',
+                    'payment_date': datetime.today()
+                })
+
         return result

@@ -1,15 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-     <data>
+    <data>
         <record id="seminar_expense_activity" model="mail.activity.type">
             <field name="name">Seminar Expense</field>
             <field name="res_model_id" ref="seminar.model_seminar_expenses"/>
             <field name="delay_count">30</field>
         </record>
-         <record id="seminar_incentive_activity" model="mail.activity.type">
+        <record id="seminar_incentive_activity" model="mail.activity.type">
             <field name="name">Seminar Incentive</field>
             <field name="res_model_id" ref="seminar.model_seminar_lead_incentive_records"/>
             <field name="delay_count">30</field>
         </record>
+
+        <record id="seminar_cip_payment_activity" model="mail.activity.type">
+            <field name="name">Cip Activity</field>
+            <field name="res_model_id" ref="seminar.model_seminar_cip_records"/>
+            <field name="delay_count">30</field>
+        </record>
+
+        <record id="cron_job_for_remove_paid_incentive_records" model="ir.cron">
+            <field name="name">Incentive Paid Record Remove</field>
+            <field name="model_id" ref="model_seminar_lead_incentive_records"/>
+            <field name="state">code</field>
+            <field name="code">model.remove_paid_seminar_incentive_records()</field>
+            <field name="active" eval="True"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+        </record>
     </data>
+
+
 </odoo>

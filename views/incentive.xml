@@ -73,9 +73,9 @@
             <form string="Form">
                 <header>
                     <field name="state" widget="statusbar"/>
-                    <button name="total_incentive" string="Confirm" type="object" class="oe_highlight" states="draft"/>
+<!--                    <button name="total_incentive" string="Confirm" type="object" class="oe_highlight" states="draft"/>-->
                     <button name="action_sent_to_approve" string="Sent to Approve" type="object" class="oe_highlight"
-                            states="sent_approval" groups="seminar.seminar_executive_head"/>
+                            states="draft" groups="seminar.seminar_executive_head"/>
                     <button name="action_hr_approval" string="HR Approval" type="object" class="oe_highlight"
                             states="hr_approval" groups="seminar.seminar_admin"/>
                     <button name="action_rejected" string="Reject" type="object" states="hr_approval"
@@ -90,12 +90,12 @@
                         <group>
                             <field name="date_from" required="1"/>
                             <field name="date_to" required="1"/>
-<!--                            <field name="lead_user_id" required="1"/>-->
+                            <field name="lead_user_id"/>
                         </group>
                         <group>
                             <field name="currency_id" invisible="1"/>
                             <!--                            <field name="incentive_amount"/>-->
-                            <field name="seminar_ids" attrs="{'invisible': [('state', '=', 'draft')]}" widget="many2many_tags"/>
+
                         </group>
                         <group>
                             <field name="payment_date" attrs="{'invisible': [('state', '!=', 'paid')]}"/>
@@ -103,15 +103,19 @@
                     </group>
                     <notebook>
                         <page string="Incentives" name="incentives">
-                            <field name="leads_list_ids" widget="one2many">
+                            <field name="leads_list_ids">
                                 <tree string="Incentives" editable="bottom">
+                                    <!--                        <page string="Incentives" name="incentives">-->
+                                    <!--                            <field name="leads_list_ids" widget="one2many_list">-->
+                                    <!--                                <tree string="Incentives" editable="bottom">-->
                                     <field name="date"/>
-                                    <field name="user_id"/>
+                                    <field name="currency_id" invisible="1"/>
+<!--                                    <field name="user_id"/>-->
                                     <field name="record_id"/>
                                     <field name="attended_by"/>
                                     <field name="booked_by"/>
                                     <field name="both"/>
-                                    <field name="incentive_amount"/>
+                                    <field name="incentive_amount" widget="monetary"/>
                                 </tree>
                             </field>
                         </page>

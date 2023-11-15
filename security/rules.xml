@@ -19,6 +19,13 @@
             <field name="domain_force">['|',('create_uid.employee_id.parent_id.user_id.id','=',user.id), ('create_uid.id' ,'=', user.id)]</field>
             <field name="groups" eval="[(4, ref('seminar_executive_head'))]"/>
         </record>
+
+        <record id="logic_seminar_cip_rules" model="ir.rule">
+            <field name="name">Only see own records</field>
+            <field name="model_id" ref="model_seminar_cip_records"/>
+            <field name="domain_force">[('create_uid','=',user.id)]</field>
+            <field name="groups" eval="[(4, ref('seminar_executive_head'))]"/>
+        </record>
 <!--        <record id="seminar_leads_rule_for_head" model="ir.rule">-->
 <!--            <field name="name">Only see head seminar leads</field>-->
 <!--            <field name="model_id" ref="model_seminar_leads"/>-->

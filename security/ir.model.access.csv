@@ -39,3 +39,15 @@ access_seminar_leads_incentive_hr,access_details,model_seminar_lead_incentive_re
 access_seminar_leads_incentive_acc,access_details,model_seminar_lead_incentive_records,seminar_accounts,1,1,1,1
 
 leads_incentive_list_acc,access_details,model_incentive_leads_list,,1,1,1,1
+
+seminar_cip_marketing_head,access_details,model_seminar_cip_records,seminar_executive_head,1,1,1,1
+seminar_cip_hr,access_details,model_seminar_cip_records,seminar_admin,1,1,1,1
+seminar_cip_accounts,access_details,model_seminar_cip_records,seminar_accounts,1,1,1,1
+seminar_cip_lists,access_details,model_seminar_cip_list,,1,1,1,1
+
+seminar_cip_rate,access_details,model_cip_executive_rate,seminar_accounts,1,1,1,1
+
+
+
+
+
