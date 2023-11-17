@@ -23,7 +23,7 @@ class IncentiveLeadsRecords(models.Model):
         for i in self:
             i.display_name = str(i.lead_user_id.name) + " " + 'Incentive Leads'
 
-    @api.onchange('lead_user_id')
+    @api.onchange('lead_user_id', 'date_from', 'date_to')
     def onchange_lead_user_id(self):
         self.seminar_ids = False
         ss = self.env['seminar.leads'].sudo().search([])
@@ -44,6 +44,7 @@ class IncentiveLeadsRecords(models.Model):
                                     # 'user_id': rec.booked_by.user_id.id,
                                     'both': rec.booked_by.user_id.id,
                                     'record_id': rec.id,
+                                    'stream': rec.stream
                                     # 'attended_by': rec.attended_by.user_id.id,
 
                                 }
@@ -59,6 +60,7 @@ class IncentiveLeadsRecords(models.Model):
                                         'booked_by': rec.booked_by.user_id.id,
                                         # 'attended_by': rec.attended_by.user_id.id,
                                         'record_id': rec.id,
+                                        'stream': rec.stream
                                         # 'attended_by': rec.attended_by.user_id.id,
 
                                     }
@@ -74,6 +76,7 @@ class IncentiveLeadsRecords(models.Model):
                                         # 'booked_by': rec.booked_by.user_id.id,
                                         'attended_by': rec.attended_by.user_id.id,
                                         'record_id': rec.id,
+                                        'stream': rec.stream
                                         # 'attended_by': rec.attended_by.user_id.id,
 
                                     }
@@ -175,6 +178,7 @@ class IncentiveEmployeeLists(models.Model):
     attended_by = fields.Many2one('res.users', string='Attended By')
     both = fields.Many2one('res.users', string='Both')
     date = fields.Date(string='Date')
+    stream = fields.Char(string='Stream')
     record_id = fields.Many2one('seminar.leads', string='Record')
     incentive_amount = fields.Float(string='Incentive Amount')
     currency_id = fields.Many2one('res.currency', string='Currency', default=lambda self: self.env.user.company_id.currency_id.id)

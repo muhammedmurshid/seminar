@@ -115,13 +115,14 @@
                                     <field name="attended_by"/>
                                     <field name="booked_by"/>
                                     <field name="both"/>
+                                    <field name="stream"/>
                                     <field name="incentive_amount" widget="monetary"/>
                                 </tree>
                             </field>
                         </page>
                     </notebook>
 
-                    <group name="incentive_amount" col="6" attrs="{'invisible': [('state', '=', 'draft')]}">
+                    <group name="incentive_amount" col="6">
                         <group class="oe_subtotal_footer oe_right" colspan="2" name="incentive_amount">
                             <field name="incentive_amount" widget="monetary"/>
                         </group>
