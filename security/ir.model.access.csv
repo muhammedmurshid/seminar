@@ -47,7 +47,6 @@ seminar_cip_lists,access_details,model_seminar_cip_list,,1,1,1,1
 
 seminar_cip_rate,access_details,model_cip_executive_rate,seminar_accounts,1,1,1,1
 
-
-
-
-
+seminar_mou_admin,access_details,model_seminar_mou_form,seminar_admin,1,1,1,1
+seminar_mou_executive,access_details,model_seminar_mou_form,seminar_executive,1,1,1,1
+seminar_mou_executive_head,access_details,model_seminar_mou_form,seminar_executive_head,1,1,1,1

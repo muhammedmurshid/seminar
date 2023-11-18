@@ -12,6 +12,12 @@
             <field name="delay_count">30</field>
         </record>
 
+        <record id="seminar_mou_activity" model="mail.activity.type">
+            <field name="name">MOU Activity</field>
+            <field name="res_model_id" ref="seminar.model_seminar_mou_form"/>
+            <field name="delay_count">30</field>
+        </record>
+
         <record id="seminar_cip_payment_activity" model="mail.activity.type">
             <field name="name">Cip Activity</field>
             <field name="res_model_id" ref="seminar.model_seminar_cip_records"/>
@@ -26,6 +32,18 @@
             <field name="active" eval="True"/>
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+        </record>
+
+        <record id="cron_job_for_mou" model="ir.cron">
+            <field name="name">MOU Activity</field>
+            <field name="model_id" ref="model_seminar_mou_form"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_sign_notification()</field>
+            <field name="active" eval="True"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
             <field name="numbercall">-1</field>
             <field name="doall" eval="False"/>
         </record>

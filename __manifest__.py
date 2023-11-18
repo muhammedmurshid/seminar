@@ -18,7 +18,8 @@
         'views/km_traveling_rate.xml',
         'data/activity.xml',
         'views/target.xml',
-        'views/seminar_cip.xml'
+        'views/seminar_cip.xml',
+        'views/mou.xml',
 
     ],
     'demo': [],
