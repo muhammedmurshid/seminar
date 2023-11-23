@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+
     <record id="model_seminar_mou_form_view" model="ir.ui.view">
         <field name="name">MOU Form</field>
         <field name="model">seminar.mou.form</field>
@@ -15,13 +16,11 @@
                 <sheet>
                     <widget name="web_ribbon" title="signed" bg_color="bg-success"
                             attrs="{'invisible': [('state', '!=', 'signed')]}"/>
-
                     <group>
                         <group>
                             <field name="institute_name" required="1"/>
                             <field name="date_of_record"/>
                             <field name="mou_sign_date"/>
-
                             <label for="mou_file"/>
                             <div class="o_row">
                                 <field name="mou_file" widget="image"/>
@@ -38,6 +37,7 @@
             </form>
         </field>
     </record>
+
     <record id="model_seminar_mou_tree_view" model="ir.ui.view">
         <field name="name">MOU Lists</field>
         <field name="model">seminar.mou.form</field>
@@ -56,11 +56,11 @@
         <field name="res_model">seminar.mou.form</field>
         <field name="view_mode">tree,form</field>
     </record>
+
     <menuitem name="MOU"
               id="model_seminar_mou_menu"
               action="model_seminar_mou_action"
               parent="menu_seminar_colleges_view"
               sequence="2"/>
-
 
 </odoo>

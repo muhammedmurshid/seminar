@@ -10,4 +10,11 @@
             <field name="name">Webinar</field>
         </record>
     </data>
+<!--    <data>-->
+<!--        <record id="default_batch" model="logic.base.batch">-->
+<!--            <field name="name">Nill</field>-->
+<!--            <field name="batch_window">january</field>-->
+<!--            <field name="branch_id">1</field>-->
+<!--        </record>-->
+<!--    </data>-->
 </odoo>
