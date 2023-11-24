@@ -77,6 +77,7 @@ class SeminarLeads(models.Model):
         self.state = 'done'
         for rec in self.seminar_ids:
             course = self.env['logic.base.courses'].sudo().search([('name', '=', 'Nil')], limit=1)
+            branch = self.env['logic.base.branches'].sudo().search([('branch_name', '=', 'Nil')], limit=1)
             print(course.id, 'course')
 
             # if rec.preferred_course:
@@ -92,6 +93,7 @@ class SeminarLeads(models.Model):
                     'leads_source': self.lead_source_id.id,
                     'phone_number': rec.contact_number,
                     'name': rec.student_name,
+                    'branch_true_or_false': True,
                     'source_seminar_or_not': True,
                     'lead_owner': self.create_uid.employee_id.id,
                     'place': rec.place,
@@ -101,6 +103,7 @@ class SeminarLeads(models.Model):
                     'email_address': rec.email_address,
                     'base_course_id': rec.preferred_course.id,
                     'lead_quality': 'nil',
+                    'branch': branch.id,
                     'district': self.district,
                     'phone_number_second': rec.whatsapp_number,
                     'parent_number': rec.parent_number
@@ -114,7 +117,9 @@ class SeminarLeads(models.Model):
                     'lead_owner': self.create_uid.employee_id.id,
                     'place': rec.place,
                     'college_name': 'nil',
+                    'branch_true_or_false': True,
                     'source_seminar_or_not': True,
+                    'branch': branch.id,
                     # 'last_studied_course': self.course,
                     'seminar_lead_id': rec.id,
                     'email_address': rec.email_address,
