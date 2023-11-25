@@ -196,25 +196,28 @@ class SeminarLeads(models.Model):
     incentive_amt = fields.Float(string='Incentive', compute='_total_incentive_amount', store=True)
 
     def action_add_to_duplicates(self):
+        print('dup')
         record_duplicate = []
         for duplicate in self.seminar_ids:
-            leads_rec = self.env['leads.logic'].sudo().search([('phone_number', '=', duplicate.contact_number)])
+            leads_rec = self.env['leads.logic'].sudo().search([])
             print(duplicate, 'duplicate')
             if duplicate.contact_number:
-                if leads_rec:
-                    res_list = {
-                        'student_name': duplicate.student_name,
-                        'contact_number': duplicate.contact_number,
-                        'district': duplicate.district,
-                        'preferred_course': duplicate.preferred_course.id,
-                        'whatsapp_number': duplicate.whatsapp_number,
-                        'parent_number': duplicate.parent_number,
-                        'email_address': duplicate.email_address,
-                        'place': duplicate.place,
+                for j in leads_rec:
+                    if j.phone_number == duplicate.contact_number:
+                        print('yaaa rec')
+                        res_list = {
+                            'student_name': duplicate.student_name,
+                            'contact_number': duplicate.contact_number,
+                            'district': duplicate.district,
+                            'preferred_course': duplicate.preferred_course.id,
+                            'whatsapp_number': duplicate.whatsapp_number,
+                            'parent_number': duplicate.parent_number,
+                            'email_address': duplicate.email_address,
+                            'place': duplicate.place,
 
-                    }
-                    record_duplicate.append((0, 0, res_list))
-                    duplicate.unlink()
+                        }
+                        record_duplicate.append((0, 0, res_list))
+                        duplicate.unlink()
         print(record_duplicate, 'record_duplicate')
         self.seminar_duplicate_ids = record_duplicate
 
