@@ -1,4 +1,5 @@
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError, AccessError, ValidationError
 
 
 class SeminarLeads(models.Model):
@@ -189,9 +190,14 @@ class SeminarLeads(models.Model):
             total += rec.incentive
         for duplicate in self.seminar_duplicate_ids:
             total += duplicate.incentive
-        self.update({
-            'incentive_amt': total
-        })
+        if len(self.seminar_ids) == 0:
+            self.update({
+                'incentive_amt': 100
+            })
+        else:
+            self.update({
+                'incentive_amt': total
+            })
 
     incentive_amt = fields.Float(string='Incentive', compute='_total_incentive_amount', store=True)
 
@@ -251,6 +257,12 @@ class CollegeListsLeads(models.Model):
                                  ('abroad', 'Abroad'), ('other', 'Other')],
                                 string='District')
     preferred_course = fields.Many2one('logic.base.courses', string='Preferred Course')
+
+    _sql_constraints = [
+        (
+            "contact_number_uniq",
+            "unique (contact_number)", 'You can not have two leads with the same number !')
+    ]
 
     @api.depends('student_name')
     def _compute_seminar_executive(self):
