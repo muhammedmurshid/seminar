@@ -190,7 +190,7 @@ class SeminarLeads(models.Model):
             total += rec.incentive
         for duplicate in self.seminar_duplicate_ids:
             total += duplicate.incentive
-        if len(self.seminar_ids) == 0:
+        if total <= 100:
             self.update({
                 'incentive_amt': 100
             })

@@ -21,7 +21,7 @@ class IncentiveLeadsRecords(models.Model):
 
     def _compute_display_name(self):
         for i in self:
-            i.display_name = str(i.lead_user_id.name) + " " + 'Incentive Leads'
+            i.display_name = str(i.lead_user_id.name) + " " + 'Leads Incentive'
 
     @api.onchange('lead_user_id', 'date_from', 'date_to')
     def onchange_lead_user_id(self):
@@ -44,7 +44,8 @@ class IncentiveLeadsRecords(models.Model):
                                     # 'user_id': rec.booked_by.user_id.id,
                                     'both': rec.booked_by.user_id.id,
                                     'record_id': rec.id,
-                                    'stream': rec.stream
+                                    'stream': rec.stream,
+                                    'total_lead_count': rec.child_count
                                     # 'attended_by': rec.attended_by.user_id.id,
 
                                 }
@@ -58,6 +59,7 @@ class IncentiveLeadsRecords(models.Model):
                                         'incentive_amount': rec.incentive_amt / 2,
                                         # 'user_id': rec.booked_by.user_id.id,
                                         'booked_by': rec.booked_by.user_id.id,
+                                        'booked_count': rec.child_count / 2,
                                         # 'attended_by': rec.attended_by.user_id.id,
                                         'record_id': rec.id,
                                         'stream': rec.stream
@@ -76,6 +78,7 @@ class IncentiveLeadsRecords(models.Model):
                                         # 'booked_by': rec.booked_by.user_id.id,
                                         'attended_by': rec.attended_by.user_id.id,
                                         'record_id': rec.id,
+                                        'attended_count': rec.child_count / 2,
                                         'stream': rec.stream
                                         # 'attended_by': rec.attended_by.user_id.id,
 
@@ -103,6 +106,58 @@ class IncentiveLeadsRecords(models.Model):
         })
 
     incentive_amount = fields.Float(string='Incentive Amount', compute='_amount_all', store=True)
+
+    @api.depends('leads_list_ids.total_lead_count')
+    def _lead_count_all(self):
+        """
+        Compute the total amounts of the SO.
+        """
+        total = 0
+        for order in self.leads_list_ids:
+            total += order.total_lead_count
+        self.update({
+            'lead_count': total,
+
+        })
+
+    lead_count = fields.Float(string='Both Lead Count', compute='_lead_count_all', store=True)
+
+    @api.depends('leads_list_ids.attended_count')
+    def _lead_count_attended(self):
+        """
+        Compute the total amounts of the SO.
+        """
+        total = 0
+        for order in self.leads_list_ids:
+            total += order.attended_count
+        self.update({
+            'attended_lead_count': total,
+
+        })
+
+    attended_lead_count = fields.Float(string='Attended Lead Count', compute='_lead_count_attended', store=True)
+
+    @api.depends('leads_list_ids.booked_count')
+    def _lead_count_booked(self):
+        """
+        Compute the total amounts of the SO.
+        """
+        total = 0
+        for order in self.leads_list_ids:
+            total += order.booked_count
+        self.update({
+            'booked_lead_count': total,
+
+        })
+
+    booked_lead_count = fields.Float(string='Booked Lead Count', compute='_lead_count_booked', store=True)
+
+    @api.depends('booked_lead_count', 'attended_lead_count', 'lead_count')
+    def _total_leads_count(self):
+        for i in self:
+            i.total_leads_count = i.booked_lead_count + i.attended_lead_count + i.lead_count
+
+    total_leads_count = fields.Float(string='Total Leads Count', compute='_total_leads_count', store=True)
 
     def action_sent_to_approve(self):
         for i in self:
@@ -133,7 +188,6 @@ class IncentiveLeadsRecords(models.Model):
             'amount': self.incentive_amount,
             'description': 'Seminar Incentive',
             'seminar_incentive_source': self.id,
-
 
         })
         activity_id = self.env['mail.activity'].search(
@@ -181,5 +235,9 @@ class IncentiveEmployeeLists(models.Model):
     stream = fields.Char(string='Stream')
     record_id = fields.Many2one('seminar.leads', string='Record')
     incentive_amount = fields.Float(string='Incentive Amount')
-    currency_id = fields.Many2one('res.currency', string='Currency', default=lambda self: self.env.user.company_id.currency_id.id)
+    currency_id = fields.Many2one('res.currency', string='Currency',
+                                  default=lambda self: self.env.user.company_id.currency_id.id)
+    total_lead_count = fields.Float(string='Total Lead Count')
+    booked_count = fields.Float(string='Booked Count')
+    attended_count = fields.Float(string='Attended Count')
     leads_list_id = fields.Many2one('seminar.lead.incentive.records', string='Incentive Leads', ondelete='cascade')

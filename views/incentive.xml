@@ -73,7 +73,7 @@
             <form string="Form">
                 <header>
                     <field name="state" widget="statusbar"/>
-<!--                    <button name="total_incentive" string="Confirm" type="object" class="oe_highlight" states="draft"/>-->
+                    <!--                    <button name="total_incentive" string="Confirm" type="object" class="oe_highlight" states="draft"/>-->
                     <button name="action_sent_to_approve" string="Sent to Approve" type="object" class="oe_highlight"
                             states="draft" groups="seminar.seminar_executive_head"/>
                     <button name="action_hr_approval" string="HR Approval" type="object" class="oe_highlight"
@@ -94,7 +94,7 @@
                         </group>
                         <group>
                             <field name="currency_id" invisible="1"/>
-                            <!--                            <field name="incentive_amount"/>-->
+
 
                         </group>
                         <group>
@@ -110,12 +110,15 @@
                                     <!--                                <tree string="Incentives" editable="bottom">-->
                                     <field name="date"/>
                                     <field name="currency_id" invisible="1"/>
-<!--                                    <field name="user_id"/>-->
-                                    <field name="record_id"/>
+                                    <!--                                    <field name="user_id"/>-->
+                                    <field name="record_id" invisible="1"/>
                                     <field name="attended_by"/>
                                     <field name="booked_by"/>
                                     <field name="both"/>
                                     <field name="stream"/>
+                                    <field name="booked_count" invisible="1"/>
+                                    <field name="attended_count" invisible="1"/>
+                                    <field name="total_lead_count" invisible="1"/>
                                     <field name="incentive_amount" widget="monetary"/>
                                 </tree>
                             </field>
@@ -124,7 +127,19 @@
 
                     <group name="incentive_amount" col="6">
                         <group class="oe_subtotal_footer oe_right" colspan="2" name="incentive_amount">
-                            <field name="incentive_amount" widget="monetary"/>
+                            <field name="booked_lead_count"/>
+                            <field name="attended_lead_count"/>
+                            <field name="lead_count"/>
+                            <field name="total_leads_count"/>
+                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                <label for="incentive_amount"/>
+                            </div>
+                            <field name="incentive_amount" nolabel="1" class="oe_subtotal_footer_separator"
+                                   widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                            <!--                            <div class="oe_subtotal_footer_separator oe_inline">-->
+                            <!--                            </div>-->
+<!--                            <field name="incentive_amount" class="oe_subtotal_footer_separator" widget="monetary"/>-->
+
                         </group>
                     </group>
                 </sheet>
