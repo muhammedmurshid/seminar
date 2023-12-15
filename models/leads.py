@@ -21,7 +21,7 @@ class SeminarLeads(models.Model):
     booked_by = fields.Many2one('hr.employee', string='Booked By')
     incentive_booked = fields.Boolean(string='Incentive Booked')
     incentive_attended = fields.Boolean(string='Incentive Attended')
-    seminar_date = fields.Date(string='Date')
+    seminar_date = fields.Date(string='Date', required=1)
     attended_by = fields.Many2one('hr.employee', string='Attended By')
     seminar_ids = fields.One2many('seminar.students', 'seminar_id', string='Seminar')
     coordinator_id = fields.Many2one('hr.employee', string='Programme Coordinator')
@@ -210,7 +210,7 @@ class SeminarLeads(models.Model):
             if duplicate.contact_number:
                 for j in leads_rec:
                     if j.phone_number == duplicate.contact_number:
-                        print('yaaa rec')
+                        print('rec')
                         res_list = {
                             'student_name': duplicate.student_name,
                             'contact_number': duplicate.contact_number,
