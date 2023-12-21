@@ -20,6 +20,7 @@
         'views/target.xml',
         'views/seminar_cip.xml',
         'views/mou.xml',
+        'views/bulk_data_assign.xml',
 
     ],
     'demo': [],

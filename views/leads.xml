@@ -14,6 +14,8 @@
                             attrs="{'invisible': ['|',('state', 'in', ['draft']),('activity_done', '=', True)]}"/>
                     <button name="action_add_to_duplicates" type="object" string="Add To Duplicates"
                             style="background-color: #ff6d4d" states="draft"/>
+                    <button name="action_bulk_lead_assign" type="object" string="Bulk Lead Assign"
+                            attrs="{'invisible':['|',('bulk_lead_assign', '=', True), ('state', '=', 'draft')]}" groups="leads.leads_admin"/>
                 </header>
                 <sheet>
                     <h2>
@@ -32,6 +34,7 @@
                             <field name="seminar_date"/>
                             <field name="incentive_booked" invisible="1"/>
                             <field name="incentive_attended" invisible="1"/>
+                            <field name="bulk_lead_assign" invisible="1"/>
                             <!--                            <field name="school"/>-->
                             <!--                            <field name="course"/>-->
 

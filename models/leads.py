@@ -36,6 +36,7 @@ class SeminarLeads(models.Model):
     reference_no = fields.Char(string='Leads Number', required=True,
                                readonly=True, default=lambda self: _('New'))
     count_duplicate = fields.Integer(string='Count Duplicate', compute='_compute_count_duplicate', store=True)
+    bulk_lead_assign = fields.Boolean(string='Bulk Lead Assign')
 
     @api.depends('seminar_duplicate_ids')
     def _compute_count_duplicate(self):
@@ -98,6 +99,7 @@ class SeminarLeads(models.Model):
                     'source_seminar_or_not': True,
                     'lead_owner': self.create_uid.employee_id.id,
                     'place': rec.place,
+                    'seminar_id': self.id,
                     'college_name': self.college_id.college_name,
                     # 'last_studied_course': self.course,
                     'seminar_lead_id': rec.id,
@@ -107,7 +109,9 @@ class SeminarLeads(models.Model):
                     'branch': branch.id,
                     'district': self.district,
                     'phone_number_second': rec.whatsapp_number,
-                    'parent_number': rec.parent_number
+                    'parent_number': rec.parent_number,
+                    'mode_of_study': 'nil',
+                    'lead_status': 'nil',
                 })
 
             else:
@@ -118,6 +122,7 @@ class SeminarLeads(models.Model):
                     'lead_owner': self.create_uid.employee_id.id,
                     'place': rec.place,
                     'college_name': 'nil',
+                    'seminar_id': self.id,
                     'branch_true_or_false': True,
                     'source_seminar_or_not': True,
                     'branch': branch.id,
@@ -128,7 +133,9 @@ class SeminarLeads(models.Model):
                     'lead_quality': 'nil',
                     'district': rec.district,
                     'phone_number_second': rec.whatsapp_number,
-                    'parent_number': rec.parent_number
+                    'parent_number': rec.parent_number,
+                    'mode_of_study': 'nil',
+                    'lead_status': 'nil',
                 })
 
         for request in self.seminar_duplicate_ids:
@@ -234,6 +241,16 @@ class SeminarLeads(models.Model):
 
     selected_duplicates_count = fields.Integer(compute='_compute_selected_duplicates_count', store=True,
                                                string='Selected Duplicates')
+
+    def action_bulk_lead_assign(self):
+        print('action_bulk_lead_assign')
+        return {'name': _('Bulk Assign'),
+                'type': 'ir.actions.act_window',
+                'res_model': 'bulk.seminar.assign',
+                'view_mode': 'form',
+                'target': 'new',
+                'context': {'default_seminar_id': self.id}
+                }
 
 
 class CollegeListsLeads(models.Model):

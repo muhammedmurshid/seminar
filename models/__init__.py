@@ -6,3 +6,4 @@ from . import target
 from . import incentive
 from . import cip_records
 from . import mou
+from . import bulk_aseminar_data_assign

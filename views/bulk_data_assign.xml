@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="seminar_data_bulk_assignment" model="ir.ui.view">
+        <field name="name">Bulk Data Assign</field>
+        <field name="model">bulk.seminar.assign</field>
+        <field name="arch" type="xml">
+            <form string="Bulk Data Assign">
+                <group>
+
+                    <field name="seminar_id" invisible="1"/>
+                    <label for="user_id">Assign To</label>
+                    <div align="center">
+                        <field name="user_id"/>
+                    </div>
+
+                </group>
+                <footer>
+                    <button string="Assign" class="oe_highlight" type="object" name='action_assign'/>
+                    <button string="Discard" type="object" special='cancel'/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="seminar_data_bulk_assigning_action" model="ir.actions.act_window">
+        <field name="name">Data Bulk Assignment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bulk.seminar.assign</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="seminar_data_bulk_assignment"/>
+        <field name="target">new</field>
+    </record>
+</odoo>
