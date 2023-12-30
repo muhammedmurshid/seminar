@@ -41,4 +41,5 @@ class BulkSeminarDataAssign(models.TransientModel):
 
             # rec.lead_assign = self.user_id.employee_id.id
         self.seminar_id.bulk_lead_assign = True
+        self.seminar_id.state = 'leads_assigned'
 

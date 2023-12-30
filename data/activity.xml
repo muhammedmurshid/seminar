@@ -49,5 +49,23 @@
         </record>
     </data>
 
+    <record id="action_lead_record_assign_or_not" model="ir.actions.server">
+        <field name="name">Lead Data Assign Or Not</field>
+        <field name="model_id" ref="seminar.model_seminar_leads"/>
+        <field name="binding_model_id" ref="seminar.model_seminar_leads"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_server_lead_data_assign_or_not()</field>
+    </record>
+
+    <record id="action_seminar_state_changing" model="ir.actions.server">
+        <field name="name">State Changed to Done</field>
+        <field name="model_id" ref="seminar.model_seminar_leads"/>
+        <field name="binding_model_id" ref="seminar.model_seminar_leads"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_state_changed_completed_to_done()</field>
+    </record>
+
 
 </odoo>

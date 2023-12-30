@@ -34,7 +34,7 @@
                             <field name="seminar_date"/>
                             <field name="incentive_booked" invisible="1"/>
                             <field name="incentive_attended" invisible="1"/>
-                            <field name="bulk_lead_assign" invisible="1"/>
+                            <field name="bulk_lead_assign" groups="base.group_no_one"/>
                             <!--                            <field name="school"/>-->
                             <!--                            <field name="course"/>-->
 
@@ -134,7 +134,7 @@
                 <field name="attended_by"/>
                 <field name="district"/>
                 <field name="count" string="Leads Count"/>
-                <field name="state" widget="badge" decoration-success="state == 'done'"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-primary="state == 'leads_assigned'"/>
             </tree>
         </field>
     </record>

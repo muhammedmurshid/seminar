@@ -29,7 +29,7 @@ class SeminarLeads(models.Model):
     stream = fields.Char(string='Stream')
     seminar_duplicate_ids = fields.One2many('duplicate.record.seminar', 'seminar_duplicate_id', string='Seminar')
     state = fields.Selection([
-        ('draft', 'Draft'), ('done', 'Done')
+        ('draft', 'Draft'), ('done', 'Done'), ('leads_assigned', 'Leads Assigned'), ('completed', 'Completed'),
     ], string='Status', default='draft', tracking=True)
     # course = fields.Char(string='Course', required=1)
     school = fields.Selection([('hsc', 'HSC'), ('ssc', 'SSC')], string='School')
@@ -251,6 +251,25 @@ class SeminarLeads(models.Model):
                 'target': 'new',
                 'context': {'default_seminar_id': self.id}
                 }
+
+    def action_server_lead_data_assign_or_not(self):
+        seminar = self.env['seminar.leads'].sudo().search([])
+        ab = []
+        leads = self.env['leads.logic'].sudo().search([])
+        students = self.env['seminar.students'].sudo().search([])
+        for i in students:
+            for j in leads:
+                if j.leads_source.name == 'Seminar' or j.leads_source.name == 'Seminar Data':
+                    if j.phone_number == i.contact_number:
+                        print(i.seminar_id, 'student_name')
+                        i.seminar_id.state = 'completed'
+                        j.seminar_id = i.seminar_id.id
+
+    def action_state_changed_completed_to_done(self):
+        rec = self.env['seminar.leads'].sudo().search([])
+        for record in rec:
+            if record.state == 'completed':
+                record.state = 'done'
 
 
 class CollegeListsLeads(models.Model):
