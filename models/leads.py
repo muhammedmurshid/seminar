@@ -253,17 +253,32 @@ class SeminarLeads(models.Model):
                 }
 
     def action_server_lead_data_assign_or_not(self):
-        seminar = self.env['seminar.leads'].sudo().search([])
-        ab = []
+        seminar = self.env['seminar.students'].sudo().search([])
+        active_ids = self.env.context.get('active_ids', [])
+        sales = seminar.browse(active_ids)
         leads = self.env['leads.logic'].sudo().search([])
-        students = self.env['seminar.students'].sudo().search([])
-        for i in students:
-            for j in leads:
-                if j.leads_source.name == 'Seminar' or j.leads_source.name == 'Seminar Data':
-                    if j.phone_number == i.contact_number:
-                        print(i.seminar_id, 'student_name')
-                        i.seminar_id.state = 'completed'
-                        j.seminar_id = i.seminar_id.id
+        for k in sales:
+            print(k.id, 'sales')
+            records = self.env['seminar.leads'].sudo().search([('id', '=', k.id)])
+            for record in records.seminar_ids:
+                for j in leads:
+                    if j.leads_source.name == 'Seminar' or j.leads_source.name == 'Seminar Data':
+                        if j.phone_number == record.contact_number:
+                            print(record.seminar_id, 'seminar_id')
+                            record.seminar_id.state = 'completed'
+                            j.seminar_id = record.seminar_id.id
+
+
+        # ab = []
+        # leads = self.env['leads.logic'].sudo().search([])
+        # students = self.env['seminar.students'].sudo().search([])
+        # for i in students:
+        #     for j in leads:
+        #         if j.leads_source.name == 'Seminar' or j.leads_source.name == 'Seminar Data':
+        #             if j.phone_number == i.contact_number:
+        #                 print(i.seminar_id, 'student_name')
+        #                 i.seminar_id.state = 'completed'
+        #                 j.seminar_id = i.seminar_id.id
 
     def action_state_changed_completed_to_done(self):
         rec = self.env['seminar.leads'].sudo().search([])

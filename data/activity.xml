@@ -64,7 +64,9 @@
         <field name="binding_model_id" ref="seminar.model_seminar_leads"/>
         <field name="binding_view_types">list</field>
         <field name="state">code</field>
-        <field name="code">action = records.action_state_changed_completed_to_done()</field>
+        <field name="code">
+            for record in records:
+                record.action_state_changed_completed_to_done()</field>
     </record>
 
 
