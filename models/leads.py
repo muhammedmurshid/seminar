@@ -29,7 +29,7 @@ class SeminarLeads(models.Model):
     stream = fields.Char(string='Stream')
     seminar_duplicate_ids = fields.One2many('duplicate.record.seminar', 'seminar_duplicate_id', string='Seminar')
     state = fields.Selection([
-        ('draft', 'Draft'), ('done', 'Done'), ('leads_assigned', 'Leads Assigned'), ('completed', 'Completed'),
+        ('draft', 'Draft'), ('done', 'Done'), ('leads_assigned', 'Leads Assigned'),
     ], string='Status', default='draft', tracking=True)
     # course = fields.Char(string='Course', required=1)
     school = fields.Selection([('hsc', 'HSC'), ('ssc', 'SSC')], string='School')

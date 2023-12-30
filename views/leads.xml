@@ -15,7 +15,8 @@
                     <button name="action_add_to_duplicates" type="object" string="Add To Duplicates"
                             style="background-color: #ff6d4d" states="draft"/>
                     <button name="action_bulk_lead_assign" type="object" string="Bulk Lead Assign"
-                            attrs="{'invisible':['|',('bulk_lead_assign', '=', True), ('state', '=', 'draft')]}" groups="leads.leads_admin"/>
+                            attrs="{'invisible':['|',('bulk_lead_assign', '=', True), ('state', '=', 'draft')]}"
+                            groups="leads.leads_admin"/>
                 </header>
                 <sheet>
                     <h2>
@@ -44,14 +45,14 @@
                             <field name="coordinator_id" attrs="{'invisible': [('lead_sc_name', '!=', 'Webinar')]}"/>
                             <field name="hosted_by_id" attrs="{'invisible': [('lead_sc_name', '!=', 'Webinar')]}"/>
                             <field name="booked_by"
-                                   attrs="{'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])]}"/>
+                                   attrs="{'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])], 'readonly':[('state','in', ['done','lead_assigned'])]}"/>
                             <field name="attended_by"
-                                   attrs="{'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])]}"/>
+                                   attrs="{'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])], 'readonly':[('state','in', ['done','lead_assigned'])]}"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Students List" name="goals">
-                            <field name="seminar_ids">
+                            <field name="seminar_ids" attrs="{'readonly':[('state','in', ['done','lead_assigned'])]}">
                                 <tree string="Students List" editable="bottom">
                                     <field name="student_name"/>
                                     <field name="preferred_course"/>
@@ -134,7 +135,8 @@
                 <field name="attended_by"/>
                 <field name="district"/>
                 <field name="count" string="Leads Count"/>
-                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-primary="state == 'leads_assigned'"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'"
+                       decoration-primary="state == 'leads_assigned'"/>
             </tree>
         </field>
     </record>
