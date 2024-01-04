@@ -62,7 +62,7 @@
                                     <field name="email_address" widget="mail"/>
                                     <field name="lead_sc_name" invisible="1"/>
                                     <field name="district"
-                                           attrs="{'required': [('lead_sc_name', '=', 'Webinar')], 'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])]}"/>
+                                           attrs="{'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])]}"/>
                                     <field name="place"/>
                                     <field name="admission_status"/>
                                     <field name="make_visible_seminar_executive" invisible="1"/>

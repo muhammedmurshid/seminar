@@ -112,6 +112,7 @@ class SeminarLeads(models.Model):
                     'parent_number': rec.parent_number,
                     'mode_of_study': 'nil',
                     'lead_status': 'nil',
+                    'leads_assign': False
                 })
 
             else:
@@ -131,11 +132,12 @@ class SeminarLeads(models.Model):
                     'email_address': rec.email_address,
                     'base_course_id': rec.preferred_course.id,
                     'lead_quality': 'nil',
-                    'district': rec.district,
+                    'district': 'nil',
                     'phone_number_second': rec.whatsapp_number,
                     'parent_number': rec.parent_number,
                     'mode_of_study': 'nil',
                     'lead_status': 'nil',
+                    'leads_assign': False
                 })
 
         for request in self.seminar_duplicate_ids:
