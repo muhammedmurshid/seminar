@@ -288,6 +288,24 @@ class SeminarLeads(models.Model):
             if record.state == 'completed':
                 record.state = 'done'
 
+    def get_current_leads(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Leads',
+            'view_mode': 'tree,form',
+            'res_model': 'leads.logic',
+            'domain': [('seminar_id', '=', self.id)],
+            'context': "{'create': False}"
+        }
+
+    def compute_count(self):
+        for record in self:
+            record.leads_smart_count = self.env['leads.logic'].sudo().search_count(
+                [('seminar_id', '=', self.id)])
+
+    leads_smart_count = fields.Integer(compute='compute_count')
+
 
 class CollegeListsLeads(models.Model):
     _name = 'seminar.students'

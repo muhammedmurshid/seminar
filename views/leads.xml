@@ -19,6 +19,11 @@
                             groups="leads.leads_admin"/>
                 </header>
                 <sheet>
+                    <div name="button_box" class="oe_button_box" groups="leads.leads_admin">
+                        <button class="oe_stat_button" type="object" name="get_current_leads" icon="fa-book">
+                            <field string="Leads" name="leads_smart_count" widget="statinfo"/>
+                        </button>
+                    </div>
                     <h2>
                         <field name="reference_no"/>
                     </h2>
