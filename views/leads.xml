@@ -17,6 +17,7 @@
                     <button name="action_bulk_lead_assign" type="object" string="Bulk Lead Assign"
                             attrs="{'invisible':['|',('bulk_lead_assign', '=', True), ('state', '=', 'draft')]}"
                             groups="leads.leads_admin"/>
+                    <button name="action_change_state" type="object" string="Change State" states="done" groups="leads.leads_admin"/>
                 </header>
                 <sheet>
                     <div name="button_box" class="oe_button_box" groups="leads.leads_admin">

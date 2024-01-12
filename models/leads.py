@@ -75,6 +75,10 @@ class SeminarLeads(models.Model):
 
     activity_done = fields.Boolean(string='Done')
 
+    def action_change_state(self):
+        for rec in self:
+            rec.state = 'leads_assigned'
+
     def action_submit(self):
         self.state = 'done'
         for rec in self.seminar_ids:
@@ -352,6 +356,8 @@ class CollegeListsLeads(models.Model):
             self.incentive = rec.incentive_per_lead
 
     incentive = fields.Float(string='Incentive', compute='_total_incentive', store=True)
+
+
 
 
 class SeminarLeadIncentive(models.Model):
