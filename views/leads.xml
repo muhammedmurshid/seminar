@@ -15,7 +15,7 @@
                     <button name="action_add_to_duplicates" type="object" string="Add To Duplicates"
                             style="background-color: #ff6d4d" states="draft"/>
                     <button name="action_bulk_lead_assign" type="object" string="Bulk Lead Assign"
-                            attrs="{'invisible':['|',('bulk_lead_assign', '=', True), ('state', '=', 'draft')]}"
+                            attrs="{'invisible':[('state', '=', 'draft')]}"
                             groups="leads.leads_admin"/>
                     <button name="action_change_state" type="object" string="Change State" states="done" groups="leads.leads_admin"/>
                 </header>
