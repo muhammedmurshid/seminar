@@ -37,7 +37,7 @@ class BulkSeminarDataAssign(models.TransientModel):
             #         'state': 'confirm'
             #     })
 
-                rec.activity_schedule('leads.mail_seminar_leads_done', user_id=self.user_id.id)
+                # rec.activity_schedule('leads.mail_seminar_leads_done', user_id=self.user_id.id)
 
             # rec.lead_assign = self.user_id.employee_id.id
         self.seminar_id.bulk_lead_assign = True
