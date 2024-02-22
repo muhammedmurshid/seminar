@@ -357,6 +357,12 @@ class CollegeListsLeads(models.Model):
 
     incentive = fields.Float(string='Incentive', compute='_total_incentive', store=True)
 
+    @api.constrains('contact_number')
+    def _check_character_limit(self):
+        for record in self:
+            if len(record.contact_number) > 13:
+                raise ValidationError("Character limit exceeded for Contact Number!" + ' ' + record.contact_number)
+
 
 
 

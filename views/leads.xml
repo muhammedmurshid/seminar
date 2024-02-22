@@ -51,9 +51,9 @@
                             <field name="coordinator_id" attrs="{'invisible': [('lead_sc_name', '!=', 'Webinar')]}"/>
                             <field name="hosted_by_id" attrs="{'invisible': [('lead_sc_name', '!=', 'Webinar')]}"/>
                             <field name="booked_by"
-                                   attrs="{'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])], 'readonly':[('state','in', ['done','lead_assigned'])]}"/>
+                                   attrs="{'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])], 'readonly':[('state','in', ['done','lead_assigned'])], 'required': [('lead_sc_name', 'in', ['Seminar','Seminar Data'])]}"/>
                             <field name="attended_by"
-                                   attrs="{'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])], 'readonly':[('state','in', ['done','lead_assigned'])]}"/>
+                                   attrs="{'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])], 'readonly':[('state','in', ['done','lead_assigned'])], 'required': [('lead_sc_name', 'in', ['Seminar','Seminar Data'])]}"/>
                         </group>
                     </group>
                     <notebook>
