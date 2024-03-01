@@ -31,6 +31,11 @@ class SeminarLeads(models.Model):
     state = fields.Selection([
         ('draft', 'Draft'), ('done', 'Done'), ('leads_assigned', 'Leads Assigned'),
     ], string='Status', default='draft', tracking=True)
+    institute_type = fields.Selection([('school', 'School'), ('college', 'College')], string='Institute Type', related='college_id.type')
+    school_type = fields.Selection([('hsc', 'HSC'), ('ssc', 'SSC')], string='School Type', related='college_id.school_type')
+    first_year = fields.Boolean(string='First Year', related='college_id.first_year')
+    second_year = fields.Boolean(string='Second Year', related='college_id.second_year')
+    third_year = fields.Boolean(string='Third Year', related='college_id.third_year')
     # course = fields.Char(string='Course', required=1)
     school = fields.Selection([('hsc', 'HSC'), ('ssc', 'SSC')], string='School')
     reference_no = fields.Char(string='Leads Number', required=True,
@@ -42,6 +47,7 @@ class SeminarLeads(models.Model):
     def _compute_count_duplicate(self):
         for record in self:
             record.count_duplicate = len(record.seminar_duplicate_ids)
+
 
     @api.depends('seminar_ids')
     def _compute_child_count(self):

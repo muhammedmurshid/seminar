@@ -17,7 +17,8 @@
                     <button name="action_bulk_lead_assign" type="object" string="Bulk Lead Assign"
                             attrs="{'invisible':[('state', '=', 'draft')]}"
                             groups="leads.leads_admin"/>
-                    <button name="action_change_state" type="object" string="Change State" states="done" groups="leads.leads_admin"/>
+                    <button name="action_change_state" type="object" string="Change State" states="done"
+                            groups="leads.leads_admin"/>
                 </header>
                 <sheet>
                     <div name="button_box" class="oe_button_box" groups="leads.leads_admin">
@@ -38,10 +39,15 @@
                             <field name="district"
                                    attrs="{'required': [('lead_sc_name', 'in', ['Seminar','Seminar Data'])], 'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])]}"/>
                             <field name="activity_done" invisible="1"/>
-                            <field name="seminar_date"/>
+                            <field name="seminar_date" attrs="{'readonly':[('state','in', ['done','leads_assigned'])]}"/>
                             <field name="incentive_booked" invisible="1"/>
                             <field name="incentive_attended" invisible="1"/>
                             <field name="bulk_lead_assign" groups="base.group_no_one"/>
+                            <field name="institute_type" invisible="1"/>
+                            <field name="school_type" invisible="1"/>
+                            <field name="first_year" invisible="1"/>
+                            <field name="second_year" invisible="1"/>
+                            <field name="third_year" invisible="1"/>
                             <!--                            <field name="school"/>-->
                             <!--                            <field name="course"/>-->
 
@@ -51,14 +57,14 @@
                             <field name="coordinator_id" attrs="{'invisible': [('lead_sc_name', '!=', 'Webinar')]}"/>
                             <field name="hosted_by_id" attrs="{'invisible': [('lead_sc_name', '!=', 'Webinar')]}"/>
                             <field name="booked_by"
-                                   attrs="{'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])], 'readonly':[('state','in', ['done','lead_assigned'])], 'required': [('lead_sc_name', 'in', ['Seminar','Seminar Data'])]}"/>
+                                   attrs="{'readonly': [('state', 'in', ['leads_assigned','done'])], 'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])], 'required': [('lead_sc_name', 'in', ['Seminar','Seminar Data'])]}"/>
                             <field name="attended_by"
-                                   attrs="{'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])], 'readonly':[('state','in', ['done','lead_assigned'])], 'required': [('lead_sc_name', 'in', ['Seminar','Seminar Data'])]}"/>
+                                   attrs="{'readonly': [('state', 'in', ['leads_assigned','done'])], 'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])], 'required': [('lead_sc_name', 'in', ['Seminar','Seminar Data'])]}"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Students List" name="goals">
-                            <field name="seminar_ids" attrs="{'readonly':[('state','in', ['done','lead_assigned'])]}">
+                            <field name="seminar_ids" attrs="{'readonly':[('state','in', ['done','leads_assigned'])]}">
                                 <tree string="Students List" editable="bottom">
                                     <field name="student_name"/>
                                     <field name="preferred_course"/>
