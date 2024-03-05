@@ -371,8 +371,6 @@ class CollegeListsLeads(models.Model):
                 raise ValidationError("Character limit exceeded for Contact Number!" + ' ' + record.contact_number)
 
 
-
-
 class SeminarLeadIncentive(models.Model):
     _name = 'seminar.lead.incentive'
     _description = 'Incentive Amount'
