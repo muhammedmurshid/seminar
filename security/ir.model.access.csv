@@ -20,7 +20,6 @@ access_seminar_leads_user,access_details,model_seminar_students,leads.leads_basi
 access_college_exp_accounts,access_details,model_seminar_expenses,seminar_accounts,1,1,1,1
 access_leads,access_details,model_seminar_leads,leads.leads_admin,1,0,0,0
 access_leads_students_admin,access_details,model_seminar_students,leads.leads_admin,1,0,0,0
-access_leads_logic,access_details,leads.model_leads_logic,seminar_executive,1,1,1,0
 access_leads_logic_seminar,access_details,model_seminar_leads,leads.leads_admin,1,1,0,0
 access_leads_accounts,access_details,model_seminar_leads,seminar_accounts,1,1,0,0
 access_accountant,access_details,model_expenses_tree_seminar,seminar_accounts,1,1,1,1

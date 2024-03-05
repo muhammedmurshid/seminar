@@ -7,6 +7,7 @@ class SeminarLeads(models.Model):
     _description = 'Seminar Leads'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'college_id'
+    _order = 'id desc'
 
     college_id = fields.Many2one('college.list', string='Institute Name')
     lead_source_id = fields.Many2one('leads.sources', string='Lead Source', required=True)
