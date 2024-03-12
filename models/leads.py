@@ -24,11 +24,11 @@ class SeminarLeads(models.Model):
     incentive_attended = fields.Boolean(string='Incentive Attended')
     seminar_date = fields.Date(string='Date', required=1)
     attended_by = fields.Many2one('hr.employee', string='Attended By')
-    seminar_ids = fields.One2many('seminar.students', 'seminar_id', string='Leads Datas Lists')
+    seminar_ids = fields.One2many('seminar.students', 'seminar_id', string='Seminar Leads')
     coordinator_id = fields.Many2one('hr.employee', string='Programme Coordinator')
     hosted_by_id = fields.Many2one('hr.employee', string='Hosted By')
     stream = fields.Char(string='Stream')
-    seminar_duplicate_ids = fields.One2many('duplicate.record.seminar', 'seminar_duplicate_id', string='Seminar')
+    seminar_duplicate_ids = fields.One2many('duplicate.record.seminar', 'seminar_duplicate_id', string='Seminar Duplicates')
     state = fields.Selection([
         ('draft', 'Draft'), ('done', 'Done'), ('leads_assigned', 'Leads Assigned'),
     ], string='Status', default='draft', tracking=True)
