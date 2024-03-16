@@ -71,6 +71,7 @@
                                     <field name="contact_number" widget="phone"/>
                                     <field name="whatsapp_number" widget="phone"/>
                                     <field name="parent_number" widget="phone"/>
+                                    <field name="is_it_duplicate" invisible="1"/>
                                     <field name="email_address" widget="mail"/>
                                     <field name="lead_sc_name" invisible="1"/>
                                     <field name="district"

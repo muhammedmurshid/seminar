@@ -28,12 +28,15 @@ class SeminarLeads(models.Model):
     coordinator_id = fields.Many2one('hr.employee', string='Programme Coordinator')
     hosted_by_id = fields.Many2one('hr.employee', string='Hosted By')
     stream = fields.Char(string='Stream')
-    seminar_duplicate_ids = fields.One2many('duplicate.record.seminar', 'seminar_duplicate_id', string='Seminar Duplicates')
+    seminar_duplicate_ids = fields.One2many('duplicate.record.seminar', 'seminar_duplicate_id',
+                                            string='Seminar Duplicates')
     state = fields.Selection([
         ('draft', 'Draft'), ('done', 'Done'), ('leads_assigned', 'Leads Assigned'),
     ], string='Status', default='draft', tracking=True)
-    institute_type = fields.Selection([('school', 'School'), ('college', 'College')], string='Institute Type', related='college_id.type')
-    school_type = fields.Selection([('hsc', 'HSC'), ('ssc', 'SSC')], string='School Type', related='college_id.school_type')
+    institute_type = fields.Selection([('school', 'School'), ('college', 'College')], string='Institute Type',
+                                      related='college_id.type')
+    school_type = fields.Selection([('hsc', 'HSC'), ('ssc', 'SSC')], string='School Type',
+                                   related='college_id.school_type')
     first_year = fields.Boolean(string='First Year', related='college_id.first_year')
     second_year = fields.Boolean(string='Second Year', related='college_id.second_year')
     third_year = fields.Boolean(string='Third Year', related='college_id.third_year')
@@ -48,7 +51,6 @@ class SeminarLeads(models.Model):
     def _compute_count_duplicate(self):
         for record in self:
             record.count_duplicate = len(record.seminar_duplicate_ids)
-
 
     @api.depends('seminar_ids')
     def _compute_child_count(self):
@@ -222,30 +224,26 @@ class SeminarLeads(models.Model):
     incentive_amt = fields.Float(string='Incentive', compute='_total_incentive_amount', store=True)
 
     def action_add_to_duplicates(self):
-        print('dup')
-        record_duplicate = []
         for duplicate in self.seminar_ids:
             leads_rec = self.env['leads.logic'].sudo().search([])
-            print(duplicate, 'duplicate')
             if duplicate.contact_number:
                 for j in leads_rec:
                     if j.phone_number == duplicate.contact_number:
-                        print('rec')
-                        res_list = {
-                            'student_name': duplicate.student_name,
-                            'contact_number': duplicate.contact_number,
-                            'district': duplicate.district,
-                            'preferred_course': duplicate.preferred_course.id,
-                            'whatsapp_number': duplicate.whatsapp_number,
-                            'parent_number': duplicate.parent_number,
-                            'email_address': duplicate.email_address,
-                            'place': duplicate.place,
+                        print(duplicate, 'duplicate')
+                        duplicate.is_it_duplicate = True
+                        self.seminar_duplicate_ids = [(0, 0, {'student_name': duplicate.student_name,
+                                                              'contact_number': duplicate.contact_number,
+                                                              'district': duplicate.district,
+                                                              'preferred_course': duplicate.preferred_course.id,
+                                                              'whatsapp_number': duplicate.whatsapp_number,
+                                                              'parent_number': duplicate.parent_number,
+                                                              'email_address': duplicate.email_address,
+                                                              'place': duplicate.place, })]
 
-                        }
-                        record_duplicate.append((0, 0, res_list))
-                        duplicate.unlink()
-        print(record_duplicate, 'record_duplicate')
-        self.seminar_duplicate_ids = record_duplicate
+                        # duplicate.unlink()
+            if duplicate.is_it_duplicate == True:
+                duplicate.unlink()
+                        # duplicate.unlink()
 
     @api.depends('seminar_duplicate_ids.selected_lead')
     def _compute_selected_duplicates_count(self):
@@ -280,7 +278,6 @@ class SeminarLeads(models.Model):
                             print(record.seminar_id, 'seminar_id')
                             record.seminar_id.state = 'completed'
                             j.seminar_id = record.seminar_id.id
-
 
         # ab = []
         # leads = self.env['leads.logic'].sudo().search([])
@@ -328,6 +325,7 @@ class CollegeListsLeads(models.Model):
     place = fields.Char(string='Place')
     admission_status = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Admission Status', readonly=True,
                                         default='no')
+    is_it_duplicate = fields.Boolean(string='Is It Duplicate')
     email_address = fields.Char(string='Email Address')
     parent_number = fields.Char(string='Parent Number')
     lead_sc_name = fields.Char(string='Lead Source', related='seminar_id.lead_sc_name')
