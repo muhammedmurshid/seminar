@@ -26,7 +26,8 @@ class BulkSeminarDataAssign(models.TransientModel):
             if rec:
                 rec.update({
                     'leads_assign': self.user_id.employee_id.id,
-                    'state': 'confirm'
+                    'state': 'confirm',
+                    'assigned_date': fields.Datetime.now()
                 })
             # seminar_data = self.env['seminar.students'].sudo().search([('id', '=', rec.seminar_lead_id)])
             # for j in seminar_data:
