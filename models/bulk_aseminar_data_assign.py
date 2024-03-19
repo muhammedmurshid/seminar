@@ -44,3 +44,18 @@ class BulkSeminarDataAssign(models.TransientModel):
         self.seminar_id.bulk_lead_assign = True
         self.seminar_id.state = 'leads_assigned'
 
+    def action_assign_without_assign(self):
+        lead = self.env['leads.logic'].sudo().search([('seminar_id', '=', self.seminar_id.id)])
+
+        for rec in lead:
+            if rec:
+                if not rec.leads_assign:
+                    rec.update({
+                        'leads_assign': self.user_id.employee_id.id,
+                        'state': 'confirm',
+                        'assigned_date': fields.Datetime.now()
+                    })
+
+        self.seminar_id.bulk_lead_assign = True
+        self.seminar_id.state = 'leads_assigned'
+

@@ -263,6 +263,7 @@ class SeminarLeads(models.Model):
                 'context': {'default_seminar_id': self.id}
                 }
 
+
     def action_server_lead_data_assign_or_not(self):
         seminar = self.env['seminar.students'].sudo().search([])
         active_ids = self.env.context.get('active_ids', [])

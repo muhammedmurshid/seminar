@@ -15,7 +15,9 @@
 
                 </group>
                 <footer>
-                    <button string="Assign" class="oe_highlight" type="object" name='action_assign'/>
+                    <button string="All Data Assign" class="oe_highlight" type="object" name='action_assign'/>
+                    <button string="Assign Without Assign" type="object" name='action_assign_without_assign'
+                            style="background-color: #f0ad4e"/>
                     <button string="Discard" type="object" special='cancel'/>
                 </footer>
             </form>
