@@ -39,7 +39,8 @@
                             <field name="district"
                                    attrs="{'required': [('lead_sc_name', 'in', ['Seminar','Seminar Data'])], 'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])]}"/>
                             <field name="activity_done" invisible="1"/>
-                            <field name="seminar_date" attrs="{'readonly':[('state','in', ['done','leads_assigned'])]}"/>
+                            <field name="make_visible_lead_manager" invisible="1"/>
+                            <field name="seminar_date" attrs="{'readonly':['&amp;',('state','in', ['done','leads_assigned']), ('make_visible_lead_manager', '=', False)]}"/>
                             <field name="incentive_booked" invisible="1"/>
                             <field name="incentive_attended" invisible="1"/>
                             <field name="bulk_lead_assign" groups="base.group_no_one"/>

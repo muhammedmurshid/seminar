@@ -47,6 +47,19 @@ class SeminarLeads(models.Model):
     count_duplicate = fields.Integer(string='Count Duplicate', compute='_compute_count_duplicate', store=True)
     bulk_lead_assign = fields.Boolean(string='Bulk Lead Assign')
 
+    def _compute_get_lead_manager(self):
+        print('kkkll')
+        user_crnt = self.env.user.id
+
+        res_user = self.env['res.users'].search([('id', '=', self.env.user.id)])
+        if res_user.has_group('leads.leads_admin'):
+            self.make_visible_lead_manager = True
+
+        else:
+            self.make_visible_lead_manager = False
+
+    make_visible_lead_manager = fields.Boolean(string="Lead Manager", default=True, compute='_compute_get_lead_manager')
+
     @api.depends('seminar_duplicate_ids')
     def _compute_count_duplicate(self):
         for record in self:

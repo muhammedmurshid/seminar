@@ -12,7 +12,6 @@
                     <div align="center">
                         <field name="user_id"/>
                     </div>
-
                 </group>
                 <footer>
                     <button string="All Data Assign" class="oe_highlight" type="object" name='action_assign'/>
