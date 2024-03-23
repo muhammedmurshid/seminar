@@ -72,6 +72,14 @@ class SeminarLeads(models.Model):
 
     child_count = fields.Integer(string='Lead Count', compute='_compute_child_count', store=True)
 
+    def action_change_source_seminar_to_seminar_data_seminar(self):
+        seminar = self.env['seminar.leads'].sudo().search([])
+        for i in seminar:
+            if i.lead_source_id:
+                print(i.lead_source_id.name, 'ssss')
+                if i.lead_source_id.name == 'Seminar':
+                    i.lead_source_id = 12
+
     @api.depends('child_count', 'count_duplicate')
     def _compute_total_leads_count(self):
         for record in self:
