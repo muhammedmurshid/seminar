@@ -10,16 +10,16 @@
             <field name="name">Webinar</field>
         </record>
     </data>
-    <record model="ir.actions.server" id="action_all_leads_source_change_to_seminar_data_seminar">
-        <field name="name">Change Lead Source Seminar to Data</field>
-        <field name="model_id" ref="model_seminar_leads"/>
-        <field name="binding_model_id" ref="model_seminar_leads"/>
-        <field name="state">code</field>
-        <field name="code">
-            if records:
-            action = records.action_change_source_seminar_to_seminar_data_seminar()
-        </field>
-    </record>
+<!--    <record model="ir.actions.server" id="action_all_leads_source_change_to_seminar_data_seminar">-->
+<!--        <field name="name">Change Lead Source Seminar to Data</field>-->
+<!--        <field name="model_id" ref="model_seminar_leads"/>-->
+<!--        <field name="binding_model_id" ref="model_seminar_leads"/>-->
+<!--        <field name="state">code</field>-->
+<!--        <field name="code">-->
+<!--            if records:-->
+<!--            action = records.action_change_source_seminar_to_seminar_data_seminar()-->
+<!--        </field>-->
+<!--    </record>-->
 <!--    <data>-->
 <!--        <record id="default_batch" model="logic.base.batch">-->
 <!--            <field name="name">Nill</field>-->

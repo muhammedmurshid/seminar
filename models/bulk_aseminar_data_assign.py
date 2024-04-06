@@ -24,11 +24,12 @@ class BulkSeminarDataAssign(models.TransientModel):
 
         for rec in lead:
             if rec:
-                rec.update({
-                    'leads_assign': self.user_id.employee_id.id,
-                    'state': 'confirm',
-                    'assigned_date': fields.Datetime.now()
-                })
+                if rec.admission_status == False:
+                    rec.update({
+                        'leads_assign': self.user_id.employee_id.id,
+                        'state': 'confirm',
+                        'assigned_date': fields.Datetime.now()
+                    })
             # seminar_data = self.env['seminar.students'].sudo().search([('id', '=', rec.seminar_lead_id)])
             # for j in seminar_data:
             #     print(j.seminar_id, 'rec')
@@ -43,6 +44,7 @@ class BulkSeminarDataAssign(models.TransientModel):
             # rec.lead_assign = self.user_id.employee_id.id
         self.seminar_id.bulk_lead_assign = True
         self.seminar_id.state = 'leads_assigned'
+        self.seminar_id.assigned_user = self.user_id.id
 
     def action_assign_without_assign(self):
         lead = self.env['leads.logic'].sudo().search([('seminar_id', '=', self.seminar_id.id)])
@@ -50,12 +52,14 @@ class BulkSeminarDataAssign(models.TransientModel):
         for rec in lead:
             if rec:
                 if not rec.leads_assign:
-                    rec.update({
-                        'leads_assign': self.user_id.employee_id.id,
-                        'state': 'confirm',
-                        'assigned_date': fields.Datetime.now()
-                    })
+                    if rec.admission_status == False:
+                        rec.update({
+                            'leads_assign': self.user_id.employee_id.id,
+                            'state': 'confirm',
+                            'assigned_date': fields.Datetime.now()
+                        })
 
         self.seminar_id.bulk_lead_assign = True
         self.seminar_id.state = 'leads_assigned'
+        self.seminar_id.assigned_user = self.user_id.id
 

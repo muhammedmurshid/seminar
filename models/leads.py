@@ -30,6 +30,7 @@ class SeminarLeads(models.Model):
     stream = fields.Char(string='Stream')
     seminar_duplicate_ids = fields.One2many('duplicate.record.seminar', 'seminar_duplicate_id',
                                             string='Seminar Duplicates')
+    assigned_user = fields.Many2one('res.users', string='Assigned User')
     state = fields.Selection([
         ('draft', 'Draft'), ('done', 'Done'), ('leads_assigned', 'Leads Assigned'),
     ], string='Status', default='draft', tracking=True)
