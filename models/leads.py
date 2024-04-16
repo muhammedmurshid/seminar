@@ -147,6 +147,7 @@ class SeminarLeads(models.Model):
                     'parent_number': rec.parent_number,
                     'mode_of_study': 'nil',
                     'lead_status': 'nil',
+                    'lead_user_type': 'marketing',
                     'leads_assign': False
                 })
 
@@ -162,6 +163,7 @@ class SeminarLeads(models.Model):
                     'branch_true_or_false': True,
                     'source_seminar_or_not': True,
                     'branch': branch.id,
+                    'lead_user_type': 'marketing',
                     # 'last_studied_course': self.course,
                     'seminar_lead_id': rec.id,
                     'email_address': rec.email_address,
