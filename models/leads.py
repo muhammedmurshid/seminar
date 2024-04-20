@@ -146,7 +146,7 @@ class SeminarLeads(models.Model):
                     'phone_number_second': rec.whatsapp_number,
                     'parent_number': rec.parent_number,
                     'mode_of_study': 'nil',
-                    'lead_status': 'nil',
+                    # 'lead_status': 'nil',
                     'lead_user_type': 'marketing',
                     'leads_assign': False
                 })
@@ -173,7 +173,7 @@ class SeminarLeads(models.Model):
                     'phone_number_second': rec.whatsapp_number,
                     'parent_number': rec.parent_number,
                     'mode_of_study': 'nil',
-                    'lead_status': 'nil',
+                    # 'lead_status': 'nil',
                     'leads_assign': False
                 })
 
