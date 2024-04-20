@@ -126,6 +126,8 @@ class SeminarLeads(models.Model):
                 rec.preferred_course = course.id
                 # preferred_course.append(course.id)
             if self.lead_sc_name == 'Seminar' or self.lead_sc_name == 'Seminar Data':
+                leads_status = self.env['lead.status'].sudo().search([('name', '=', 'Nil')])
+
                 self.env['leads.logic'].sudo().create({
                     'leads_source': self.lead_source_id.id,
                     'phone_number': rec.contact_number,
@@ -146,12 +148,14 @@ class SeminarLeads(models.Model):
                     'phone_number_second': rec.whatsapp_number,
                     'parent_number': rec.parent_number,
                     'mode_of_study': 'nil',
-                    # 'lead_status': 'nil',
+                    'remarks_lead_user_id': leads_status.id,
                     'lead_user_type': 'marketing',
                     'leads_assign': False
                 })
 
             else:
+                leads_status = self.env['lead.status'].sudo().search([('name', '=', 'Nil')])
+
                 self.env['leads.logic'].sudo().create({
                     'leads_source': self.lead_source_id.id,
                     'phone_number': rec.contact_number,
@@ -173,7 +177,7 @@ class SeminarLeads(models.Model):
                     'phone_number_second': rec.whatsapp_number,
                     'parent_number': rec.parent_number,
                     'mode_of_study': 'nil',
-                    # 'lead_status': 'nil',
+                    'remarks_lead_user_id': leads_status.id,
                     'leads_assign': False
                 })
 
