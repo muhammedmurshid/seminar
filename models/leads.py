@@ -234,6 +234,12 @@ class SeminarLeads(models.Model):
             'body_html': f'{self.create_uid.name} submitted leads of {self.college_id.college_name} containing {self.child_count} leads',
             'email_to': self.create_uid.employee_id.parent_id.work_email,
         }).send()
+        self.env['logic.task.other'].sudo().create({'name': 'Seminar leads submitted',
+                                                    'task_types': 'other',
+                                                    'description': self.district + ' ' + self.college_id.college_name + ' record submitted',
+                                                    })
+        rec = self.env['logic.task.other'].search([], limit=1, order='id desc')
+        rec.sudo().write({'state': 'completed'})
 
     @api.depends('seminar_ids.incentive', 'seminar_duplicate_ids.selected_lead')
     def _total_incentive_amount(self):
