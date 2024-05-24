@@ -10,7 +10,7 @@
                     <field name="state" widget="statusbar"/>
                     <button name="action_submit" type="object" states="draft" string="Submit" class="oe_highlight"/>
                     <button name="action_head_approval" type="object" states="head_approval" string="Approve"
-                            class="oe_highlight" groups="seminar.seminar_executive_head"/>
+                            class="oe_highlight" groups="seminar.seminar_executive_head,seminar.seminar_admin"/>
                     <button name="action_hr_approval" class="oe_highlight" type="object" states="hr_approval"
                             string="Approve" groups="seminar.seminar_admin"/>
                     <button name="action_rejected" type="object" states="hr_approval" string="Reject"
