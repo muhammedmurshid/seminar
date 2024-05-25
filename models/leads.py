@@ -236,7 +236,7 @@ class SeminarLeads(models.Model):
         }).send()
         self.env['logic.task.other'].sudo().create({'name': 'Seminar leads submitted',
                                                     'task_types': 'other',
-                                                    'description': self.district + ' ' + self.college_id.college_name + ' record submitted',
+                                                    'description': self.lead_source_id.name + ' record submitted',
                                                     })
         rec = self.env['logic.task.other'].search([], limit=1, order='id desc')
         rec.sudo().write({'state': 'completed'})
