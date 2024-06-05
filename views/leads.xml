@@ -54,6 +54,7 @@
 
                         </group>
                         <group>
+                            <field name="title"/>
                             <field name="stream" required="1"/>
                             <field name="coordinator_id" attrs="{'invisible': [('lead_sc_name', '!=', 'Webinar')]}"/>
                             <field name="hosted_by_id" attrs="{'invisible': [('lead_sc_name', '!=', 'Webinar')]}"/>

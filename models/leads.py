@@ -12,6 +12,7 @@ class SeminarLeads(models.Model):
     college_id = fields.Many2one('college.list', string='Institute Name')
     lead_source_id = fields.Many2one('leads.sources', string='Lead Source', required=True)
     lead_sc_name = fields.Char(string='Lead Sc Name', related='lead_source_id.name')
+    title = fields.Char(string='Title')
     district = fields.Selection([('wayanad', 'Wayanad'), ('ernakulam', 'Ernakulam'), ('kollam', 'Kollam'),
                                  ('thiruvananthapuram', 'Thiruvananthapuram'), ('kottayam', 'Kottayam'),
                                  ('kozhikode', 'Kozhikode'), ('palakkad', 'Palakkad'), ('kannur', 'Kannur'),
@@ -134,6 +135,7 @@ class SeminarLeads(models.Model):
                     'name': rec.student_name,
                     'branch_true_or_false': True,
                     'source_seminar_or_not': True,
+                    'title': self.title,
                     'lead_owner': self.create_uid.employee_id.id,
                     'place': rec.place,
                     'seminar_id': self.id,
@@ -163,6 +165,7 @@ class SeminarLeads(models.Model):
                     'name': rec.student_name,
                     'lead_owner': self.create_uid.employee_id.id,
                     'place': rec.place,
+                    'title': self.title,
                     'college_type_listed': 'unlisted',
                     'college_name': 'nil',
                     'seminar_id': self.id,
