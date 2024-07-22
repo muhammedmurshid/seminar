@@ -41,6 +41,7 @@
                             <field name="activity_done" invisible="1"/>
                             <field name="make_visible_lead_manager" invisible="1"/>
                             <field name="seminar_date" attrs="{'readonly':['&amp;',('state','in', ['done','leads_assigned']), ('make_visible_lead_manager', '=', False)]}"/>
+                            <field name="academic_year"/>
                             <field name="incentive_booked" invisible="1"/>
                             <field name="incentive_attended" invisible="1"/>
                             <field name="bulk_lead_assign" groups="base.group_no_one"/>
