@@ -48,7 +48,7 @@ class SeminarLeads(models.Model):
                                readonly=True, default=lambda self: _('New'))
     count_duplicate = fields.Integer(string='Count Duplicate', compute='_compute_count_duplicate', store=True)
     bulk_lead_assign = fields.Boolean(string='Bulk Lead Assign')
-    academic_year = fields.Char(string='Academic Year', required=1)
+    academic_year = fields.Selection([('2024', '2024'), ('2025', '2025')], string='Academic Year', required=1)
 
     def _compute_get_lead_manager(self):
         print('kkkll')
@@ -140,6 +140,7 @@ class SeminarLeads(models.Model):
                     'lead_owner': self.create_uid.employee_id.id,
                     'place': rec.place,
                     'seminar_id': self.id,
+                    'academic_year': self.academic_year,
                     'college_type_listed': 'unlisted',
                     'college_name': self.college_id.college_name,
                     # 'last_studied_course': self.course,
@@ -172,6 +173,7 @@ class SeminarLeads(models.Model):
                     'seminar_id': self.id,
                     'branch_true_or_false': True,
                     'source_seminar_or_not': True,
+                    'academic_year': self.academic_year,
                     'branch': branch.id,
                     'lead_user_type': 'marketing',
                     # 'last_studied_course': self.course,
