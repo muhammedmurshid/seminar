@@ -63,3 +63,21 @@ class BulkSeminarDataAssign(models.TransientModel):
         self.seminar_id.state = 'leads_assigned'
         self.seminar_id.assigned_user = self.user_id.id
 
+
+    def action_add_tele_callers(self):
+        lead = self.env['leads.logic'].sudo().search([('seminar_id', '=', self.seminar_id.id)])
+
+        for rec in lead:
+            if rec:
+                if rec.admission_status == False:
+                    rec.update({
+                        'leads_assign': False,
+                        'state': 'tele_caller',
+                        'lead_quality': 'nil'
+                    })
+
+        self.seminar_id.bulk_lead_assign = True
+        self.seminar_id.state = 'leads_assigned'
+        self.seminar_id.assigned_user = self.user_id.id
+
+

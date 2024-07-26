@@ -17,6 +17,7 @@
                     <button string="All Data Assign" class="oe_highlight" type="object" name='action_assign'/>
                     <button string="Assign Without Assign" type="object" name='action_assign_without_assign'
                             style="background-color: #f0ad4e"/>
+                    <button type="object" name="action_add_tele_callers" string="Assign to Tele Caller" class="oe_highlight"/>
                     <button string="Discard" type="object" special='cancel'/>
                 </footer>
             </form>

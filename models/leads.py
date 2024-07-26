@@ -48,7 +48,7 @@ class SeminarLeads(models.Model):
                                readonly=True, default=lambda self: _('New'))
     count_duplicate = fields.Integer(string='Count Duplicate', compute='_compute_count_duplicate', store=True)
     bulk_lead_assign = fields.Boolean(string='Bulk Lead Assign')
-    academic_year = fields.Selection([('2024', '2024'), ('2025', '2025')], string='Academic Year', required=1)
+    academic_year = fields.Selection([('2024', '2025'), ('2025', '2026')], string='Academic Year', required=1)
 
     def _compute_get_lead_manager(self):
         print('kkkll')
