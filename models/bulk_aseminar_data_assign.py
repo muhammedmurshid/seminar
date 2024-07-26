@@ -73,6 +73,7 @@ class BulkSeminarDataAssign(models.TransientModel):
                     rec.update({
                         'leads_assign': False,
                         'state': 'tele_caller',
+                        'tele_caller_ids': self.user_id.id,
                         'lead_quality': 'nil'
                     })
 
