@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <data noupdate="0">
-        <record id="default_seminar_data" model="leads.sources">
-            <field name="name">Seminar Datas</field>
-        </record>
-    </data>
+<!--    <data noupdate="0">-->
+<!--        <record id="default_seminar_data" model="leads.sources">-->
+<!--            <field name="name">Seminar Datas</field>-->
+<!--        </record>-->
+<!--    </data>-->
     <data>
         <record id="default_webinar_data" model="leads.sources">
             <field name="name">Webinar</field>
