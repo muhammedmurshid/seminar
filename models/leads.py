@@ -33,7 +33,7 @@ class SeminarLeads(models.Model):
                                             string='Seminar Duplicates')
     assigned_user = fields.Many2one('res.users', string='Assigned User')
     state = fields.Selection([
-        ('draft', 'Draft'), ('done', 'Done'), ('leads_assigned', 'Leads Assigned'),
+        ('draft', 'Draft'), ('filtered', 'Datas Filtered'), ('done', 'Done'), ('leads_assigned', 'Leads Assigned'),
     ], string='Status', default='draft', tracking=True)
     institute_type = fields.Selection([('school', 'School'), ('college', 'College')], string='Institute Type',
                                       related='college_id.type')
@@ -288,6 +288,7 @@ class SeminarLeads(models.Model):
                         # duplicate.unlink()
             if duplicate.is_it_duplicate:
                 duplicate.unlink()
+        self.state = 'filtered'
                         # duplicate.unlink()
 
     @api.depends('seminar_duplicate_ids.selected_lead')

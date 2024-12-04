@@ -8,14 +8,14 @@
             <form string="Leads">
                 <header>
                     <field name="state" widget="statusbar"/>
-                    <button name="action_submit" type="object" states="draft" string="Submit" class="oe_highlight"/>
+                    <button name="action_submit" type="object" states="filtered" string="Add to Leads" class="oe_highlight"/>
                     <button name="action_done_leads_manager" string="Done" class="oe_highlight"
                             type="object" groups="leads.leads_admin" help="Remove this seminar lead from the Activity"
-                            attrs="{'invisible': ['|',('state', 'in', ['draft']),('activity_done', '=', True)]}"/>
+                            attrs="{'invisible': ['|',('state', 'in', ['draft','filtered']),('activity_done', '=', True)]}"/>
                     <button name="action_add_to_duplicates" type="object" string="Add To Duplicates"
                             style="background-color: #ff6d4d" states="draft"/>
                     <button name="action_bulk_lead_assign" type="object" string="Bulk Lead Assign"
-                            attrs="{'invisible':[('state', '=', 'draft')]}"
+                            attrs="{'invisible':[('state', 'in', ['draft','filtered'])]}"
                             groups="leads.leads_admin"/>
                     <button name="action_change_state" type="object" string="Change State" states="done"
                             groups="leads.leads_admin"/>
@@ -152,7 +152,7 @@
                 <field name="district"/>
                 <field name="count" string="Leads Count"/>
                 <field name="assigned_user" readonly="1" widget="badge" groups="leads.leads_admin"/>
-                <field name="state" widget="badge" decoration-success="state == 'done'"
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state == 'filtered'"
                        decoration-primary="state == 'leads_assigned'"/>
 
             </tree>
