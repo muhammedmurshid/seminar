@@ -119,11 +119,6 @@ class SeminarLeads(models.Model):
             branch = self.env['logic.base.branches'].sudo().search([('branch_name', '=', 'Nil')], limit=1)
             print(course.id, 'course')
 
-            # if rec.preferred_course:
-            #     preferred_course = rec.preferred_course.id
-            #     preferred_course.append(rec.preferred_course.id)
-            # else:
-            #     preferred_course += 'None'
             if not rec.preferred_course:
                 rec.preferred_course = course.id
                 # preferred_course.append(course.id)
@@ -266,11 +261,18 @@ class SeminarLeads(models.Model):
     incentive_amt = fields.Float(string='Incentive', compute='_total_incentive_amount', store=True)
 
     def action_add_to_duplicates(self):
+        leads_rec = self.env['leads.logic'].sudo().search([])
+        # for i in leads_rec:
+        #     print(i.phone_number[-10:], 'nmbr')
         for duplicate in self.seminar_ids:
-            leads_rec = self.env['leads.logic'].sudo().search([])
+            # leads_rec = self.env['leads.logic'].sudo().search([])
             if duplicate.contact_number:
                 for j in leads_rec:
-                    if j.phone_number == duplicate.contact_number:
+                    last_10_digits = str(j.phone_number)[-10:]
+                    print(last_10_digits, 'num')
+                    # print(j.phone_number[-10:], 'lead')
+                    # Check if the last 10 digits of both numbers match
+                    if j.phone_number[-10:] == duplicate.contact_number[-10:]:
                         print(duplicate, 'duplicate')
                         duplicate.is_it_duplicate = True
                         self.seminar_duplicate_ids = [(0, 0, {'student_name': duplicate.student_name,
@@ -282,8 +284,9 @@ class SeminarLeads(models.Model):
                                                               'email_address': duplicate.email_address,
                                                               'place': duplicate.place, })]
 
+                        # Uncomment the following line if you want to remove duplicates
                         # duplicate.unlink()
-            if duplicate.is_it_duplicate == True:
+            if duplicate.is_it_duplicate:
                 duplicate.unlink()
                         # duplicate.unlink()
 
