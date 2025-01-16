@@ -38,53 +38,100 @@ class IncentiveLeadsRecords(models.Model):
                         print(rec.booked_by.user_id.name, 'user')
                         if self.lead_user_id.id == rec.attended_by.user_id.id and self.lead_user_id.id == rec.booked_by.user_id.id:
                             if rec.incentive_booked == False and rec.incentive_attended == False:
-                                res_list = {
-                                    'date': rec.seminar_date,
-                                    'incentive_amount': rec.incentive_amt,
-                                    # 'user_id': rec.booked_by.user_id.id,
-                                    'both': rec.booked_by.user_id.id,
-                                    'record_id': rec.id,
-                                    'stream': rec.stream,
-                                    'total_lead_count': rec.child_count
-                                    # 'attended_by': rec.attended_by.user_id.id,
+                                if rec.child_count < 10:
+                                    res_list = {
+                                        'date': rec.seminar_date,
+                                        'incentive_amount': 100,
+                                        # 'user_id': rec.booked_by.user_id.id,
+                                        'both': rec.booked_by.user_id.id,
+                                        'record_id': rec.id,
+                                        'stream': rec.stream,
+                                        'total_lead_count': rec.child_count
+                                        # 'attended_by': rec.attended_by.user_id.id,
 
-                                }
-                                record.append((0, 0, res_list))
-                                print('both')
+                                    }
+                                    record.append((0, 0, res_list))
+                                    print('both')
+                                else:
+                                    res_list = {
+                                        'date': rec.seminar_date,
+                                        'incentive_amount': rec.child_count * 10 /2,
+                                        # 'user_id': rec.booked_by.user_id.id,
+                                        'both': rec.booked_by.user_id.id,
+                                        'record_id': rec.id,
+                                        'stream': rec.stream,
+                                        'total_lead_count': rec.child_count
+                                        # 'attended_by': rec.attended_by.user_id.id,
+
+                                    }
+                                    record.append((0, 0, res_list))
+                                    print('both')
                         if self.lead_user_id.id == rec.booked_by.user_id.id:
                             if rec.booked_by.id != rec.attended_by.id:
                                 if rec.incentive_booked == False:
-                                    res_list = {
-                                        'date': rec.seminar_date,
-                                        'incentive_amount': rec.incentive_amt / 2,
-                                        # 'user_id': rec.booked_by.user_id.id,
-                                        'booked_by': rec.booked_by.user_id.id,
-                                        'booked_count': rec.child_count / 2,
-                                        # 'attended_by': rec.attended_by.user_id.id,
-                                        'record_id': rec.id,
-                                        'stream': rec.stream
-                                        # 'attended_by': rec.attended_by.user_id.id,
+                                    if rec.child_count > 10:
+                                        res_list = {
+                                            'date': rec.seminar_date,
+                                            'incentive_amount': rec.child_count * 10 / 2,
+                                            # 'user_id': rec.booked_by.user_id.id,
+                                            'booked_by': rec.booked_by.user_id.id,
+                                            'booked_count': rec.child_count / 2,
+                                            # 'attended_by': rec.attended_by.user_id.id,
+                                            'record_id': rec.id,
+                                            'stream': rec.stream
+                                            # 'attended_by': rec.attended_by.user_id.id,
 
-                                    }
-                                    record.append((0, 0, res_list))
-                                    print('booked')
+                                        }
+                                        record.append((0, 0, res_list))
+                                        print('booked')
+                                    else:
+                                        res_list = {
+                                            'date': rec.seminar_date,
+                                            'incentive_amount': 50,
+                                            # 'user_id': rec.booked_by.user_id.id,
+                                            'booked_by': rec.booked_by.user_id.id,
+                                            'booked_count': rec.child_count / 2,
+                                            # 'attended_by': rec.attended_by.user_id.id,
+                                            'record_id': rec.id,
+                                            'stream': rec.stream
+                                            # 'attended_by': rec.attended_by.user_id.id,
+
+                                        }
+                                        record.append((0, 0, res_list))
+                                        print('booked')
                         if self.lead_user_id.id == rec.attended_by.user_id.id:
                             if rec.booked_by.id != rec.attended_by.id:
                                 if rec.incentive_attended == False:
-                                    res_list = {
-                                        'date': rec.seminar_date,
-                                        'incentive_amount': rec.incentive_amt / 2,
-                                        # 'user_id': rec.booked_by.user_id.id,
-                                        # 'booked_by': rec.booked_by.user_id.id,
-                                        'attended_by': rec.attended_by.user_id.id,
-                                        'record_id': rec.id,
-                                        'attended_count': rec.child_count / 2,
-                                        'stream': rec.stream
-                                        # 'attended_by': rec.attended_by.user_id.id,
+                                    if rec.child_count > 10:
+                                        res_list = {
+                                            'date': rec.seminar_date,
+                                            'incentive_amount': rec.incentive_amt / 2,
+                                            # 'user_id': rec.booked_by.user_id.id,
+                                            # 'booked_by': rec.booked_by.user_id.id,
+                                            'attended_by': rec.attended_by.user_id.id,
+                                            'record_id': rec.id,
+                                            'attended_count': rec.child_count / 2,
+                                            'stream': rec.stream
+                                            # 'attended_by': rec.attended_by.user_id.id,
 
-                                    }
-                                    record.append((0, 0, res_list))
-                                    print('attend')
+                                        }
+                                        record.append((0, 0, res_list))
+                                        print('attend')
+                                    else:
+                                        res_list = {
+                                            'date': rec.seminar_date,
+                                            'incentive_amount': 50,
+                                            # 'user_id': rec.booked_by.user_id.id,
+                                            # 'booked_by': rec.booked_by.user_id.id,
+                                            'attended_by': rec.attended_by.user_id.id,
+                                            'record_id': rec.id,
+                                            'attended_count': rec.child_count / 2,
+                                            'stream': rec.stream
+                                            # 'attended_by': rec.attended_by.user_id.id,
+
+                                        }
+                                        record.append((0, 0, res_list))
+                                        print('attend')
 
         self.update({
             # 'state': 'sent_approval',

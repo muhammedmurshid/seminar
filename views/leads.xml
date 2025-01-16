@@ -8,7 +8,8 @@
             <form string="Leads">
                 <header>
                     <field name="state" widget="statusbar"/>
-                    <button name="action_submit" type="object" states="filtered" string="Send to Leads" class="oe_highlight"/>
+                    <button name="action_submit" type="object" states="filtered" string="Send to Leads"
+                            class="oe_highlight"/>
                     <button name="action_done_leads_manager" string="Done" class="oe_highlight"
                             type="object" groups="leads.leads_admin" help="Remove this seminar lead from the Activity"
                             attrs="{'invisible': ['|',('state', 'in', ['draft','filtered']),('activity_done', '=', True)]}"/>
@@ -19,6 +20,8 @@
                             groups="leads.leads_admin"/>
                     <button name="action_change_state" type="object" string="Change State" states="done"
                             groups="leads.leads_admin"/>
+                    <button name="act_duplicate_allocation_request" type="object" string="Duplicates allocation"
+                            style="background-color:yellow" states="filtered"/>
                 </header>
                 <sheet>
                     <div name="button_box" class="oe_button_box" groups="leads.leads_admin">
@@ -40,7 +43,8 @@
                                    attrs="{'required': [('lead_sc_name', 'in', ['Seminar','Seminar Data'])], 'invisible': [('lead_sc_name', 'not in', ['Seminar','Seminar Data'])]}"/>
                             <field name="activity_done" invisible="1"/>
                             <field name="make_visible_lead_manager" invisible="1"/>
-                            <field name="seminar_date" attrs="{'readonly':['&amp;',('state','in', ['done','leads_assigned']), ('make_visible_lead_manager', '=', False)]}"/>
+                            <field name="seminar_date"
+                                   attrs="{'readonly':['&amp;',('state','in', ['done','leads_assigned']), ('make_visible_lead_manager', '=', False)]}"/>
                             <field name="academic_year"/>
                             <field name="incentive_booked" invisible="1"/>
                             <field name="incentive_attended" invisible="1"/>
@@ -152,7 +156,8 @@
                 <field name="district"/>
                 <field name="count" string="Leads Count"/>
                 <field name="assigned_user" readonly="1" widget="badge" groups="leads.leads_admin"/>
-                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state == 'filtered'"
+                <field name="state" widget="badge" decoration-success="state == 'done'"
+                       decoration-info="state == 'filtered'"
                        decoration-primary="state == 'leads_assigned'"/>
 
             </tree>

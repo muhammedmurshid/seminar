@@ -361,6 +361,10 @@ class SeminarLeads(models.Model):
 
     leads_smart_count = fields.Integer(compute='compute_count')
 
+    def act_duplicate_allocation_request(self):
+        for duplicate in self.seminar_duplicate_ids:
+           print(duplicate.student_name, 'student')
+
 
 class CollegeListsLeads(models.Model):
     _name = 'seminar.students'
