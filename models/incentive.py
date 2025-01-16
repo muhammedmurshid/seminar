@@ -139,20 +139,7 @@ class IncentiveLeadsRecords(models.Model):
 
         })
 
-    @api.depends('leads_list_ids.incentive_amount')
-    def _amount_all(self):
-        """
-        Compute the total amounts of the SO.
-        """
-        total = 0
-        for order in self.leads_list_ids:
-            total += order.incentive_amount
-        self.update({
-            'incentive_amount': total,
 
-        })
-
-    incentive_amount = fields.Float(string='Incentive Amount', compute='_amount_all', store=True)
 
     @api.depends('leads_list_ids.total_lead_count')
     def _lead_count_all(self):
@@ -206,6 +193,20 @@ class IncentiveLeadsRecords(models.Model):
 
     total_leads_count = fields.Float(string='Total Leads Count', compute='_total_leads_count', store=True)
 
+    @api.depends('leads_list_ids.incentive_amount', 'total_leads_count')
+    def _amount_all(self):
+        """
+        Compute the total amounts of the SO.
+        """
+        total = 0
+        for order in self.leads_list_ids:
+            total += order.incentive_amount
+        self.update({
+            'incentive_amount': self.total_leads_count * 10,
+
+        })
+
+    incentive_amount = fields.Float(string='Incentive Amount', compute='_amount_all', store=True)
     def action_sent_to_approve(self):
         for i in self:
             user = self.env.ref('seminar.seminar_admin').users
