@@ -118,8 +118,8 @@
                                     <field name="stream"/>
                                     <field name="booked_count" invisible="1"/>
                                     <field name="attended_count" invisible="1"/>
-                                    <field name="total_lead_count" invisible="1"/>
-                                    <field name="incentive_amount" widget="monetary"/>
+                                    <field name="total_lead_count" string="Lead Count"/>
+                                    <field name="incentive_amount" widget="monetary" invisible="1"/>
                                 </tree>
                             </field>
                         </page>

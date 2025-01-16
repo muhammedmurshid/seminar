@@ -148,6 +148,7 @@
             <tree>
                 <field name="reference_no"/>
                 <field name="lead_source_id"/>
+                <field name="seminar_date" string="Seminar Date"/>
                 <field name="create_uid" string="Owner"/>
                 <field name="college_id"/>
                 <field name="stream"/>
